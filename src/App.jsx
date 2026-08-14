@@ -185,7 +185,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
     let cancelled=false;
     const init=async()=>{
       try{
-        const isMob=/Android|iPhone|iPad/i.test(navigator.userAgent),cW=isMob?320:640,cH=isMob?240:480;
+        const isMob=/Android|iPhone|iPad/i.test(navigator.userAgent),cW=isMob?240:640,cH=isMob?180:480;
         onStatus("1/3 · Descargando IA...");
         let stream;
         try{[,stream]=await Promise.all([loadScript(TF_URL),navigator.mediaDevices.getUserMedia({video:{facingMode,width:{ideal:cW},height:{ideal:cH}},audio:false})]);await loadScript(PD_URL);}
