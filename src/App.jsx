@@ -150,7 +150,7 @@ const BONES=[[0,1],[1,2],[1,3],[2,4],[4,6],[3,5],[5,7],[2,8],[3,8],[8,9],[8,10],
 
 // ─── MOVENET ──────────────────────────────────────────────────────────────────
 function calcAngle(a,b,c){const ab=[a[0]-b[0],a[1]-b[1]],cb=[c[0]-b[0],c[1]-b[1]],dot=ab[0]*cb[0]+ab[1]*cb[1],mag=Math.sqrt(ab[0]**2+ab[1]**2)*Math.sqrt(cb[0]**2+cb[1]**2);return mag<0.0001?0:Math.acos(Math.max(-1,Math.min(1,dot/mag)))*180/Math.PI;}
-const MIN_CONF=0.15;
+const MIN_CONF=0.10;
 const REP_DETECTORS={
   flexiones:(kps)=>{const cL=Math.min(kps[5][2],kps[7][2],kps[9][2]),cR=Math.min(kps[6][2],kps[8][2],kps[10][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};if((kps[11][1]+kps[12][1])/2-(kps[5][1]+kps[6][1])/2>130)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);return{angle:Math.round(a),phase:a<90?"down":a>140?"up":null,conf:L?cL:cR};},
   flexiones_diamante:(kps)=>{const cL=Math.min(kps[5][2],kps[7][2],kps[9][2]),cR=Math.min(kps[6][2],kps[8][2],kps[10][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};if((kps[11][1]+kps[12][1])/2-(kps[5][1]+kps[6][1])/2>130)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);return{angle:Math.round(a),phase:a<85?"down":a>140?"up":null,conf:L?cL:cR};},
@@ -179,7 +179,7 @@ function preloadMoveNetScripts(){return loadScript(TF_URL).then(()=>loadScript(P
 function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode="user"}){
   const videoRef=useRef(null),keypointsRef=useRef(null),phaseRef=useRef(null),frameRef=useRef(null);
   const angleHistRef=useRef([]),phaseHistRef=useRef([]),lastRepRef=useRef(0);
-  const SF=10,PF=3,RC=600;
+  const SF=18,PF=3,RC=600;
   useEffect(()=>{
     if(!active){if(frameRef.current)cancelAnimationFrame(frameRef.current);return;}
     let cancelled=false;
