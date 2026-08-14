@@ -194,7 +194,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
         if(cancelled){stream?.getTracks().forEach(t=>t.stop());return;}
         const vid=document.createElement("video");vid.srcObject=stream;vid.playsInline=true;vid.muted=true;await vid.play();videoRef.current=vid;
         onStatus("2/3 · Motor IA...");
-        let bu="cpu";try{window.tf.env().set("WEBGL_VERSION",1);await window.tf.setBackend("webgl");await window.tf.ready();bu="webgl";}catch(e){try{await window.tf.setBackend("cpu");await window.tf.ready();}catch(e2){}}
+        let bu="cpu";try{await loadScript(WASM_URL);window.tf_wasm.setWasmPaths("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@4.11.0/dist/");await window.tf.setBackend("wasm");await window.tf.ready();bu="wasm";}catch(e){try{await window.tf.setBackend("cpu");await window.tf.ready();}catch(e2){}}
         onStatus("3/3 · Modelo... ["+bu+"]");
         let r=0;while((!window.poseDetection?.movenet)&&r<3){r++;await new Promise(x=>setTimeout(x,1500));try{await loadScript(PD_URL);}catch(e){}}
         if(!window.poseDetection?.movenet){onStatus("Error: recargá la página");return;}
