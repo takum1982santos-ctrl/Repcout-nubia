@@ -180,7 +180,7 @@ function preloadMoveNetScripts(){return loadScript(TF_URL).then(()=>loadScript(P
 function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode="user"}){
   const videoRef=useRef(null),keypointsRef=useRef(null),phaseRef=useRef(null),frameRef=useRef(null);
   const angleHistRef=useRef([]),phaseHistRef=useRef([]),lastRepRef=useRef(0);
-  const SF=18,PF=3,RC=600;
+  const SF=5,PF=3,RC=600;
   useEffect(()=>{
     if(!active){if(frameRef.current)cancelAnimationFrame(frameRef.current);return;}
     let cancelled=false;
