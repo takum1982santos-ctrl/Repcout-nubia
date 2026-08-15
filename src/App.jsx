@@ -54,12 +54,7 @@ const exercises = categories.flatMap(c => c.exercises);
 
 const exerciseSteps = {
   burpee_sin_salto:["De pie","Agachado","Plancha","Flex abajo","Flex arriba","De pie"],
-  burpee_con_salto:["De pie","Agachado","Plancha","Flex abajo","Flex arriba","De pie","Salto"],
-  jumping_jacks:["Juntos","Abierto"], flexiones:["Arriba","Abajo"],
-  flexiones_diamante:["Arriba","Abajo"], pike_pushup:["Arriba","Abajo"], dips:["Arriba","Abajo"],
-  dominadas:["Abajo","Arriba"], dominada_supina:["Abajo","Arriba"], dominada_neutra:["Abajo","Arriba"],
-  remo_australiano:["Abajo","Arriba"], sentadillas:["De pie","Abajo"], zancadas:["De pie","Abajo"],
-  sissy_squat:["De pie","Abajo"], sentadilla_una_pierna:["De pie","Abajo"], plancha:["HOLD"],
+  flexiones:["Arriba","Abajo"], dominadas:["Abajo","Arriba"], sentadillas:["De pie","Abajo"],
 };
 
 const exerciseDefaults = {
