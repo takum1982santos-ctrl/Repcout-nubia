@@ -38,7 +38,6 @@ class ErrorBoundary extends Component {
 const categories = [
   { id:"fullbody", name:"Full Body", icon:"🔥", color:"#FF4D4D", exercises:[
     { id:"burpee_sin_salto", name:"Burpee Sin Salto", steps:6, icon:"⚡", color:"#FF4D4D", desc:"6 pasos · sin impacto final" },
-    { id:"burpee_con_salto", name:"Burpee Con Salto", steps:7, icon:"🚀", color:"#FF2222", desc:"7 pasos · versión completa" },
     { id:"jumping_jacks",   name:"Jumping Jacks",    steps:2, icon:"🌟", color:"#FF6B6B", desc:"Pies + brazos · cardio" },
   ]},
   { id:"empuje", name:"Empuje", icon:"💪", color:"#FF8C00", exercises:[
