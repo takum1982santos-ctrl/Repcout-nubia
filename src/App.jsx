@@ -180,6 +180,7 @@ function preloadMoveNetScripts(){return loadScript(TF_URL).then(()=>loadScript(P
 function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode="user"}){
   const videoRef=useRef(null),keypointsRef=useRef(null),phaseRef=useRef(null),frameRef=useRef(null);
   const angleHistRef=useRef([]),phaseHistRef=useRef([]),lastRepRef=useRef(0);
+  const burpeeStageRef=useRef(0);
   const SF=5,PF=3,RC=600;
   useEffect(()=>{
     if(!active){if(frameRef.current)cancelAnimationFrame(frameRef.current);return;}
@@ -214,7 +215,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
               fsd=0;keypointsRef.current=kps;
               const rd=REP_DETECTORS[exerciseId];
               if(rd){
-                const{angle,phase,conf}=rd(kps);
+                const{angle,phase,conf}=rd(kps,burpeeStageRef);
                 if(angle!==null&&conf>=MIN_CONF){
                   angleHistRef.current=[...angleHistRef.current,angle].slice(-SF);
                   const sa=Math.round(angleHistRef.current.reduce((a,b)=>a+b,0)/angleHistRef.current.length);
