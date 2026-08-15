@@ -37,29 +37,16 @@ class ErrorBoundary extends Component {
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const categories = [
   { id:"fullbody", name:"Full Body", icon:"🔥", color:"#FF4D4D", exercises:[
-    { id:"burpee_sin_salto", name:"Burpee Sin Salto", steps:6, icon:"⚡", color:"#FF4D4D", desc:"6 pasos · sin impacto final" },
-    { id:"jumping_jacks",   name:"Jumping Jacks",    steps:2, icon:"🌟", color:"#FF6B6B", desc:"Pies + brazos · cardio" },
+    { id:"burpee_sin_salto", name:"Burpee", steps:6, icon:"⚡", color:"#FF4D4D", desc:"6 pasos · sentadilla, plancha, flexión" },
   ]},
   { id:"empuje", name:"Empuje", icon:"💪", color:"#FF8C00", exercises:[
-    { id:"flexiones",          name:"Flexiones",          steps:2, icon:"💪", color:"#FF8C00", desc:"Agarre normal · pecho" },
-    { id:"flexiones_diamante", name:"Flexiones Diamante", steps:2, icon:"💎", color:"#FF8C00", desc:"Agarre cerrado · tríceps" },
-    { id:"pike_pushup",        name:"Pike Pushup",        steps:2, icon:"🔺", color:"#FF8C00", desc:"Cadera alta · hombros" },
-    { id:"dips",               name:"Dips",               steps:2, icon:"🔽", color:"#FF8C00", desc:"Fondos · tríceps y pecho" },
+    { id:"flexiones", name:"Flexiones", steps:2, icon:"💪", color:"#FF8C00", desc:"Cualquier variante · pecho y tríceps" },
   ]},
   { id:"tiron", name:"Tirón", icon:"🏋️", color:"#6C63FF", exercises:[
-    { id:"dominadas",        name:"Dominadas",        steps:2, icon:"🏋️", color:"#6C63FF", desc:"Agarre ancho · espalda" },
-    { id:"dominada_supina",  name:"Dominada Supina",  steps:2, icon:"💪", color:"#8B5CF6", desc:"Chin-up · bíceps dominante" },
-    { id:"dominada_neutra",  name:"Dominada Neutra",  steps:2, icon:"🤲", color:"#7C3AED", desc:"Agarre neutro · completo" },
-    { id:"remo_australiano", name:"Remo Australiano", steps:2, icon:"📐", color:"#5B21B6", desc:"Barra baja · espalda media" },
+    { id:"dominadas", name:"Dominadas", steps:2, icon:"🏋️", color:"#6C63FF", desc:"Cualquier agarre · espalda" },
   ]},
   { id:"piernas", name:"Piernas", icon:"🦵", color:"#00C9A7", exercises:[
-    { id:"sentadillas",           name:"Sentadillas",           steps:2, icon:"🦵", color:"#00C9A7", desc:"Bilateral · cuádriceps" },
-    { id:"zancadas",              name:"Zancadas",              steps:2, icon:"🚶", color:"#00C9A7", desc:"Alternadas · glúteos" },
-    { id:"sissy_squat",           name:"Sissy Squat",           steps:2, icon:"⚡", color:"#06B6D4", desc:"Rodillas adelante · cuádriceps" },
-    { id:"sentadilla_una_pierna", name:"Sentadilla Una Pierna", steps:2, icon:"🦾", color:"#00C9A7", desc:"Pistol squat · avanzado" },
-  ]},
-  { id:"hold", name:"Isométrico", icon:"🧘", color:"#F59E0B", exercises:[
-    { id:"plancha", name:"Plancha", steps:1, icon:"⏱", color:"#F59E0B", desc:"Hold · core y alineación", holdMode:true },
+    { id:"sentadillas", name:"Sentadillas", steps:2, icon:"🦵", color:"#00C9A7", desc:"Bilateral, zancada o pistol · piernas" },
   ]},
 ];
 
