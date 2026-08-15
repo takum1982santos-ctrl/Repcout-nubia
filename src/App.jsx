@@ -118,7 +118,7 @@ const POSES = {
   pullup_up:  {pts:[[140,22],[140,42],[118,30],[162,30],[126,16],[154,16],[130,30],[150,30],[140,90],[128,132],[152,132],[124,172],[156,172]],conf:[1,1,1,1,1,1,0.9,0.9,1,1,1,1,1]},
 };
 function getPose(exerciseId,stepIndex){
-  const map={burpee_sin_salto:["standing","squat_down","plank","pushup_down","plank","standing"],burpee_con_salto:["standing","squat_down","plank","pushup_down","plank","standing","jump"],jumping_jacks:["standing","jump"],flexiones:["plank","pushup_down"],flexiones_diamante:["plank","pushup_down"],pike_pushup:["plank","pushup_down"],dips:["standing","squat_down"],dominadas:["standing","pullup_up"],dominada_supina:["standing","pullup_up"],dominada_neutra:["standing","pullup_up"],remo_australiano:["plank","pushup_down"],sentadillas:["standing","squat_down"],zancadas:["standing","squat_down"],sissy_squat:["standing","squat_down"],sentadilla_una_pierna:["standing","squat_down"],plancha:["plank"]};
+  const map={burpee_sin_salto:["standing","squat_down","plank","pushup_down","plank","standing"],flexiones:["plank","pushup_down"],dominadas:["standing","pullup_up"],sentadillas:["standing","squat_down"]};
   return POSES[map[exerciseId]?.[stepIndex]||"standing"];
 }
 const BONES=[[0,1],[1,2],[1,3],[2,4],[4,6],[3,5],[5,7],[2,8],[3,8],[8,9],[8,10],[9,11],[10,12]];
