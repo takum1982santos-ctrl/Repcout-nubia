@@ -171,12 +171,14 @@ const REP_DETECTORS={
     const L=cL>=cR;
     const torsoAngle=L?calcAngle(kps[5],kps[11],kps[13]):calcAngle(kps[6],kps[12],kps[14]);
     const elbowAngle=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);
-    const sy=(kps[5][1]+kps[6][1])/2,hy=(kps[11][1]+kps[12][1])/2,ay=(kps[15][1]+kps[16][1])/2;
-    const bl=Math.abs(ay-sy)||1,hd=Math.abs(hy-(sy+ay)/2)/bl;
-    const standing=torsoAngle>150;
+    const shoulderPt=L?kps[5]:kps[6],hipPt=L?kps[11]:kps[12];
+    const upPt=[shoulderPt[0],shoulderPt[1]-100];
+    const tiltAngle=calcAngle(hipPt,shoulderPt,upPt);
+    const standing=tiltAngle>140;
+    const inPlank=tiltAngle<110;
     if(!standing){
       if(stageRef.current>=3)return{angle:Math.round(torsoAngle),phase:"down",conf:L?cL:cR};
-      if(hd<0.15&&torsoAngle<130){
+      if(inPlank){
         if(stageRef.current<1)stageRef.current=1;
         if(elbowAngle<100)stageRef.current=Math.max(stageRef.current,2);
         if(stageRef.current>=2&&elbowAngle>140)stageRef.current=3;
