@@ -234,7 +234,7 @@ function PoseView({color,exerciseId,onRep,active,facingMode,onFlipCamera,onReady
   const[liveConf,setLiveConf]=useState(0);
   const[repFlash,setRepFlash]=useState(false);
   const rfRef=useRef(false),lpRef=useRef(null);
-  const HL={flexiones:[[5,7,9],[6,8,10]],flexiones_diamante:[[5,7,9],[6,8,10]],pike_pushup:[[5,7,9],[6,8,10]],dips:[[5,7,9],[6,8,10]],dominadas:[[5,7,9],[6,8,10]],dominada_supina:[[5,7,9],[6,8,10]],dominada_neutra:[[5,7,9],[6,8,10]],remo_australiano:[[5,7,9],[6,8,10]],sentadillas:[[11,13,15],[12,14,16]],zancadas:[[11,13,15],[12,14,16]],sissy_squat:[[11,13,15],[12,14,16]],sentadilla_una_pierna:[[11,13,15],[12,14,16]],jumping_jacks:[[15,16],[9,10]],burpee_sin_salto:[[5,11,13],[6,12,14]],burpee_con_salto:[[5,11,13],[6,12,14]],plancha:[[5,11,15],[6,12,16]]};
+  const HL={flexiones:[[5,7,9],[6,8,10]],dominadas:[[5,7,9],[6,8,10]],sentadillas:[[11,13,15],[12,14,16]],burpee_sin_salto:[[5,11,13],[6,12,14]]};
   const CONN=[[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];
   const handleRep=()=>{onRep();rfRef.current=true;setRepFlash(true);setTimeout(()=>{rfRef.current=false;setRepFlash(false);},400);};
   const handleAngle=({angle,phase,conf})=>{setLiveAngle(angle);setLivePhase(phase);setLiveConf(conf);if(phase!==lpRef.current){lpRef.current=phase;onPhaseChange?.(phase);}};
