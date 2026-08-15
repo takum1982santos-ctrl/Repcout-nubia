@@ -58,14 +58,8 @@ const exerciseSteps = {
 };
 
 const exerciseDefaults = {
-  burpee_sin_salto:{sets:3,duration:300,rest:90}, burpee_con_salto:{sets:3,duration:300,rest:90},
-  jumping_jacks:{sets:3,duration:60,rest:30}, flexiones:{sets:4,duration:480,rest:60},
-  flexiones_diamante:{sets:3,duration:360,rest:60}, pike_pushup:{sets:3,duration:300,rest:60},
-  dips:{sets:3,duration:360,rest:60}, dominadas:{sets:4,duration:300,rest:90},
-  dominada_supina:{sets:4,duration:300,rest:90}, dominada_neutra:{sets:4,duration:300,rest:90},
-  remo_australiano:{sets:4,duration:300,rest:60}, sentadillas:{sets:4,duration:480,rest:45},
-  zancadas:{sets:3,duration:420,rest:45}, sissy_squat:{sets:3,duration:300,rest:60},
-  sentadilla_una_pierna:{sets:3,duration:300,rest:60}, plancha:{sets:3,duration:60,rest:60},
+  burpee_sin_salto:{sets:3,duration:300,rest:90}, flexiones:{sets:4,duration:480,rest:60},
+  dominadas:{sets:4,duration:300,rest:90}, sentadillas:{sets:4,duration:480,rest:45},
 };
 
 // ─── BLOCK TYPES ──────────────────────────────────────────────────────────────
