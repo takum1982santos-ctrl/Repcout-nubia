@@ -166,7 +166,28 @@ const REP_DETECTORS={
   remo_australiano:(kps)=>{const cL=Math.min(kps[5][2],kps[7][2],kps[9][2]),cR=Math.min(kps[6][2],kps[8][2],kps[10][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};if(Math.abs((kps[11][1]+kps[12][1])/2-(kps[5][1]+kps[6][1])/2)>=120)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);return{angle:Math.round(a),phase:a<90?"up":a>150?"down":null,conf:L?cL:cR};},
   jumping_jacks:(kps)=>{const cA=Math.min(kps[15][2],kps[16][2]),cW=Math.min(kps[9][2],kps[10][2]);if(cA<MIN_CONF&&cW<MIN_CONF)return{angle:null,phase:null,conf:0};const sw=Math.abs(kps[5][0]-kps[6][0])||80,as=Math.abs(kps[15][0]-kps[16][0])/sw,wu=(kps[5][1]+kps[6][1])/2-(kps[9][1]+kps[10][1])/2;return{angle:Math.round(as*100),phase:(as>0.55&&wu>10)?"up":wu<-20?"down":null,conf:Math.max(cA,cW)};},
   plancha:(kps)=>{const cL=Math.min(kps[5][2],kps[11][2],kps[15][2]),cR=Math.min(kps[6][2],kps[12][2],kps[16][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const sy=(kps[5][1]+kps[6][1])/2,hy=(kps[11][1]+kps[12][1])/2,ay=(kps[15][1]+kps[16][1])/2,bl=Math.abs(ay-sy)||1,hd=Math.abs(hy-(sy+ay)/2)/bl;return{angle:Math.round(hd*100),phase:hd<0.15?"up":null,conf:cL>=cR?cL:cR};},
-  burpee_sin_salto:(kps)=>{const cL=Math.min(kps[5][2],kps[11][2],kps[13][2]),cR=Math.min(kps[6][2],kps[12][2],kps[14][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[11],kps[13]):calcAngle(kps[6],kps[12],kps[14]);return{angle:Math.round(a),phase:a<110?"down":a>160?"up":null,conf:L?cL:cR};},
+  burpee_sin_salto:(kps,stageRef)=>{
+    const cL=Math.min(kps[5][2],kps[11][2],kps[13][2]),cR=Math.min(kps[6][2],kps[12][2],kps[14][2]);
+    if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};
+    const L=cL>=cR;
+    const torsoAngle=L?calcAngle(kps[5],kps[11],kps[13]):calcAngle(kps[6],kps[12],kps[14]);
+    const elbowAngle=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);
+    const sy=(kps[5][1]+kps[6][1])/2,hy=(kps[11][1]+kps[12][1])/2,ay=(kps[15][1]+kps[16][1])/2;
+    const bl=Math.abs(ay-sy)||1,hd=Math.abs(hy-(sy+ay)/2)/bl;
+    const standing=torsoAngle>150;
+    if(!standing){
+      if(stageRef.current>=3)return{angle:Math.round(torsoAngle),phase:"down",conf:L?cL:cR};
+      if(hd<0.15&&torsoAngle<130){
+        if(stageRef.current<1)stageRef.current=1;
+        if(elbowAngle<100)stageRef.current=Math.max(stageRef.current,2);
+        if(stageRef.current>=2&&elbowAngle>140)stageRef.current=3;
+      }
+      return{angle:Math.round(torsoAngle),phase:null,conf:L?cL:cR};
+    }
+    const done=stageRef.current>=3;
+    stageRef.current=0;
+    return{angle:Math.round(torsoAngle),phase:done?"up":null,conf:L?cL:cR};
+  },
   burpee_con_salto:(kps)=>{const cL=Math.min(kps[5][2],kps[11][2],kps[13][2]),cR=Math.min(kps[6][2],kps[12][2],kps[14][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[11],kps[13]):calcAngle(kps[6],kps[12],kps[14]);return{angle:Math.round(a),phase:a<110?"down":a>155?"up":null,conf:L?cL:cR};},
 };
 
