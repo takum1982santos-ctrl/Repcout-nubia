@@ -204,6 +204,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
               if(rd){
                 const{angle,phase,conf}=rd(kps,burpeeStageRef);
                 if(angle!==null&&conf>=MIN_CONF){
+                  badFrameRef.current=0;
                   angleHistRef.current=[...angleHistRef.current,angle].slice(-SF);
                   const sa=Math.round(angleHistRef.current.reduce((a,b)=>a+b,0)/angleHistRef.current.length);
                   onAngle?.({angle:sa,phase:phaseRef.current,conf});
