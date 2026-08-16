@@ -212,9 +212,8 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
                     phaseHistRef.current=[...phaseHistRef.current,phase].slice(-PF);
                     const stable=phaseHistRef.current.length===PF&&phaseHistRef.current.every(p=>p===phase);
                     if(stable&&phase!==phaseRef.current){const prev=phaseRef.current;phaseRef.current=phase;const now=Date.now();if(phase==="up"&&prev==="down"&&(now-lastRepRef.current)>RC){lastRepRef.current=now;playBeep("rep");onRep();}}
-                  }else{if(phaseRef.current==="down"&&phaseHistRef.current.length>0)playBeep("incomplete");phaseHistRef.current=[];phaseRef.current=null;onAngle?.({angle:null,phase:null,conf:0});}
-                }else{phaseHistRef.current=[];phaseRef.current=null;onAngle?.({angle:null,phase:null,conf:0});}
-              }
+                  }else{badFrameRef.current++;if(badFrameRef.current>=MAX_BAD){if(phaseRef.current==="down"&&phaseHistRef.current.length>0)playBeep("incomplete");phaseHistRef.current=[];phaseRef.current=null;badFrameRef.current=0;}onAngle?.({angle:null,phase:null,conf:0});}
+                }else{badFrameRef.current++;if(badFrameRef.current>=MAX_BAD){phaseHistRef.current=[];phaseRef.current=null;badFrameRef.current=0;}onAngle?.({angle:null,phase:null,conf:0});}
             }
           }catch(e){}
           frameRef.current=requestAnimationFrame(detect);
