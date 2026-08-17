@@ -252,8 +252,7 @@ function PoseView({color,exerciseId,onRep,active,facingMode,onFlipCamera,onReady
       const vid=videoRef.current;if(vid&&vid.readyState>=2){ctx.save();ctx.translate(W,0);ctx.scale(-1,1);ctx.drawImage(vid,0,0,W,H);ctx.restore();}
       if(rfRef.current){ctx.fillStyle=`${color}33`;ctx.fillRect(0,0,W,H);}
       const kps=keypointsRef.current;
-      if(kps){
-        const sx=W/640,sy=H/480,px=(i)=>[W-kps[i][0]*sx,kps[i][1]*sy];
+      if(kps){const vw=vid?.videoWidth||640,vh=vid?.videoHeight||480,sx=W/vw,sy=H/vh,px=(i)=>[W-kps[i][0]*sx,kps[i][1]*sy];
         const hlS=HL[exerciseId]||[],hlF=new Set(hlS.flat());
         CONN.forEach(([a,b])=>{if(kps[a][2]<0.2||kps[b][2]<0.2)return;const[ax,ay]=px(a),[bx,by]=px(b),iH=hlF.has(a)&&hlF.has(b);ctx.strokeStyle=iH?color:`${color}55`;ctx.lineWidth=iH?4:2;ctx.lineCap="round";ctx.shadowColor=iH?color:"transparent";ctx.shadowBlur=iH?10:0;ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();ctx.shadowBlur=0;});
         kps.forEach(([x,y,s],i)=>{if(s<0.2)return;const[px2,py2]=[W-x*sx,y*sy],iH=hlF.has(i);ctx.fillStyle=iH?color:`${color}77`;ctx.shadowColor=iH?color:"transparent";ctx.shadowBlur=iH?12:0;ctx.beginPath();ctx.arc(px2,py2,iH?6:3.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;});
