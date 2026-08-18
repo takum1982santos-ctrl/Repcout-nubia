@@ -233,6 +233,7 @@ function PoseView({color,exerciseId,onRep,active,facingMode,onFlipCamera,onReady
   const[liveAngle,setLiveAngle]=useState(null);
   const[livePhase,setLivePhase]=useState(null);
   const[liveConf,setLiveConf]=useState(0);
+  const[liveDbg,setLiveDbg]=useState("");
   const[repFlash,setRepFlash]=useState(false);
   const rfRef=useRef(false),lpRef=useRef(null);
   const HL={flexiones:[[5,7,9],[6,8,10]],dominadas:[[5,7,9],[6,8,10]],sentadillas:[[11,13,15],[12,14,16]],burpee_sin_salto:[[5,11,13],[6,12,14]]};
