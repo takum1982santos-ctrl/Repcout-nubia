@@ -239,7 +239,7 @@ function PoseView({color,exerciseId,onRep,active,facingMode,onFlipCamera,onReady
   const HL={flexiones:[[5,7,9],[6,8,10]],dominadas:[[5,7,9],[6,8,10]],sentadillas:[[11,13,15],[12,14,16]],burpee_sin_salto:[[5,11,13],[6,12,14]]};
   const CONN=[[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];
   const handleRep=()=>{onRep();rfRef.current=true;setRepFlash(true);setTimeout(()=>{rfRef.current=false;setRepFlash(false);},400);};
-  const handleAngle=({angle,phase,conf})=>{setLiveAngle(angle);setLivePhase(phase);setLiveConf(conf);if(phase!==lpRef.current){lpRef.current=phase;onPhaseChange?.(phase);}};
+  const handleAngle=({angle,phase,conf,dbg})=>{setLiveAngle(angle);setLivePhase(phase);setLiveConf(conf);setLiveDbg(dbg||"");if(phase!==lpRef.current){lpRef.current=phase;onPhaseChange?.(phase);}};
   const{videoRef,keypointsRef}=useMoveNet({active,exerciseId,onRep:handleRep,onStatus:setStatus,onAngle:handleAngle,facingMode,onReady});
   const laRef=useRef(null),lpvRef=useRef(null);
   useEffect(()=>{laRef.current=liveAngle;},[liveAngle]);
