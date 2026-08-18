@@ -221,7 +221,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
                     if(stable&&ph!==phaseRef.current){const prev=phaseRef.current;phaseRef.current=ph;const now=Date.now();if(ph==="up"&&prev==="down"&&(now-lastRepRef.current)>RC){lastRepRef.current=now;playBeep("rep");onRep();}}
                   }else{
                     badFrameRef.current++;if(badFrameRef.current>=MAX_BAD){phaseHistRef.current=[];badFrameRef.current=0;}
-                    onAngle?.({angle:null,phase:null,conf:0});
+                    onAngle?.({angle:null,phase:null,conf:0,dbg:dbg2?`ph:null\n${dbg2}`:undefined});
                   }
                 }else{
                   badFrameRef.current++;if(badFrameRef.current>=MAX_BAD){phaseHistRef.current=[];phaseRef.current=null;badFrameRef.current=0;}
