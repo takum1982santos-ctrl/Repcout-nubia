@@ -146,8 +146,11 @@ const REP_DETECTORS={
       if(stageRef.current>=3)return{angle:Math.round(torsoAngle),phase:"down",conf:L?cL:cR};
       if(inPlank){
         if(stageRef.current<1)stageRef.current=1;
-        if(elbowAngle<100)stageRef.current=Math.max(stageRef.current,2);
-        if(stageRef.current>=2&&elbowAngle>140)stageRef.current=3;
+        const cElbow=L?Math.min(kps[5][2],kps[7][2],kps[9][2]):Math.min(kps[6][2],kps[8][2],kps[10][2]);
+        if(cElbow>=MIN_CONF){
+          if(elbowAngle<100)stageRef.current=Math.max(stageRef.current,2);
+          if(stageRef.current>=2&&elbowAngle>140)stageRef.current=3;
+        }
       }
       return{angle:Math.round(torsoAngle),phase:null,conf:L?cL:cR};
     }
