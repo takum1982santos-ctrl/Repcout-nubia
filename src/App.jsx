@@ -209,7 +209,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
                   angleHistRef.current=[...angleHistRef.current,angle].slice(-SF);
                   const sa=Math.round(angleHistRef.current.reduce((a,b)=>a+b,0)/angleHistRef.current.length);
                   const th=PHASE_THRESH[exerciseId],ph=th?(sa<th.down?"down":sa>th.up?"up":null):phase;
-                  onAngle?.({angle:sa,phase:phaseRef.current,conf});
+                  onAngle?.({angle:sa,phase:phaseRef.current,conf,dbg:`mem:${phaseRef.current}|ph:${ph}|hist:${phaseHistRef.current.join(",")}|bad:${badFrameRef.current}`});
                   if(ph){
                     phaseHistRef.current=[...phaseHistRef.current,ph].slice(-PF);
                     const stable=phaseHistRef.current.length===PF&&phaseHistRef.current.every(p=>p===ph);
