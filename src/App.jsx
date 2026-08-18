@@ -142,8 +142,10 @@ const REP_DETECTORS={
     const tiltAngle=calcAngle(hipPt,shoulderPt,upPt);
     const standing=tiltAngle>140;
     const inPlank=tiltAngle<110;
+    const ix=L?[5,7,9,11,13,15]:[6,8,10,12,14,16];
+    const dbg2=`lado:${L?"IZQ":"DER"}\nhombro:${kps[ix[0]][2].toFixed(2)}\ncodo:${kps[ix[1]][2].toFixed(2)}\nmuñeca:${kps[ix[2]][2].toFixed(2)}\ncadera:${kps[ix[3]][2].toFixed(2)}\nrodilla:${kps[ix[4]][2].toFixed(2)}\ntobillo:${kps[ix[5]][2].toFixed(2)}\ntilt:${Math.round(tiltAngle)}\nstage:${stageRef.current}`;
     if(!standing){
-      if(stageRef.current>=3)return{angle:Math.round(torsoAngle),phase:"down",conf:L?cL:cR};
+      if(stageRef.current>=3)return{angle:Math.round(torsoAngle),phase:"down",conf:L?cL:cR,dbg2};
       if(inPlank){
         if(stageRef.current<1)stageRef.current=1;
         const cElbow=L?Math.min(kps[5][2],kps[7][2],kps[9][2]):Math.min(kps[6][2],kps[8][2],kps[10][2]);
@@ -152,11 +154,11 @@ const REP_DETECTORS={
           if(stageRef.current>=2&&elbowAngle>140)stageRef.current=3;
         }
       }
-      return{angle:Math.round(torsoAngle),phase:null,conf:L?cL:cR};
+      return{angle:Math.round(torsoAngle),phase:null,conf:L?cL:cR,dbg2};
     }
     const done=stageRef.current>=3;
     stageRef.current=0;
-    return{angle:Math.round(torsoAngle),phase:done?"up":null,conf:L?cL:cR};
+    return{angle:Math.round(torsoAngle),phase:done?"up":null,conf:L?cL:cR,dbg2};
   },
 };
 
