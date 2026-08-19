@@ -129,7 +129,17 @@ const MIN_CONF=0.25;
 const PHASE_THRESH={flexiones:{down:90,up:140},sentadillas:{down:100,up:160}};
 const REP_DETECTORS={
   flexiones:(kps)=>{const cL=Math.min(kps[5][2],kps[7][2],kps[9][2]),cR=Math.min(kps[6][2],kps[8][2],kps[10][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};if((kps[11][1]+kps[12][1])/2-(kps[5][1]+kps[6][1])/2>130)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);return{angle:Math.round(a),phase:a<90?"down":a>140?"up":null,conf:L?cL:cR};},
-  dominadas:(kps)=>{const cL=Math.min(kps[5][2],kps[7][2],kps[9][2]),cR=Math.min(kps[6][2],kps[8][2],kps[10][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const L=cL>=cR,a=L?calcAngle(kps[5],kps[7],kps[9]):calcAngle(kps[6],kps[8],kps[10]);return{angle:Math.round(a),phase:a<90?"up":a>155?"down":null,conf:L?cL:cR};},
+  dominadas:(kps)=>{
+    const cL=Math.min(kps[5][2],kps[9][2],kps[11][2]),cR=Math.min(kps[6][2],kps[10][2],kps[12][2]);
+    if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};
+    const L=cL>=cR;
+    const shoulder=L?kps[5]:kps[6],wrist=L?kps[9]:kps[10],hip=L?kps[11]:kps[12];
+    const torsoLen=Math.hypot(shoulder[0]-hip[0],shoulder[1]-hip[1])||1;
+    const ratio=(shoulder[1]-wrist[1])/torsoLen;
+    const score=Math.round(ratio*100);
+    const dbg2=`lado:${L?"IZQ":"DER"}\nhombro:${kps[L?5:6][2].toFixed(2)}\nmuñeca:${kps[L?9:10][2].toFixed(2)}\ncadera:${kps[L?11:12][2].toFixed(2)}\nratio:${ratio.toFixed(2)}`;
+    return{angle:score,phase:ratio>0.6?"down":ratio<0.3?"up":null,conf:L?cL:cR,dbg2};
+  },  
   sentadillas:(kps)=>{const cL=Math.min(kps[11][2],kps[13][2],kps[15][2]),cR=Math.min(kps[12][2],kps[14][2],kps[16][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const aL=cL>=MIN_CONF?calcAngle(kps[11],kps[13],kps[15]):180,aR=cR>=MIN_CONF?calcAngle(kps[12],kps[14],kps[16]):180;const ui=aL<aR,a=ui?aL:aR;return{angle:Math.round(a),phase:a<100?"down":a>160?"up":null,conf:ui?cL:cR};},
   burpee_sin_salto:(kps,stageRef)=>{
     const cL=Math.min(kps[5][2],kps[11][2],kps[13][2]),cR=Math.min(kps[6][2],kps[12][2],kps[14][2]);
