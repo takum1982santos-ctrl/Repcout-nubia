@@ -156,10 +156,9 @@ const REP_DETECTORS={
       }
       return{angle:Math.round(torsoAngle),phase:null,conf:L?cL:cR,dbg2};
     }
-    const done=stageRef.current>=3;
-    stageRef.current=0;
-    return{angle:Math.round(torsoAngle),phase:done?"up":null,conf:L?cL:cR,dbg2};
-  },
+    if(stageRef.current>=3)stageRef.current=4;
+    return{angle:Math.round(torsoAngle),phase:stageRef.current===4?"up":null,conf:L?cL:cR,dbg2};
+  },,
 };
 
 const TF_URL="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js";
