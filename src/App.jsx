@@ -90,6 +90,9 @@ function loadWeekPlan(){try{const r=localStorage.getItem(WEEKPLAN_KEY);return r?
 function saveWeekPlan(p){try{localStorage.setItem(WEEKPLAN_KEY,JSON.stringify(p));}catch{}}
 function loadMeso(){try{const r=localStorage.getItem(MESO_KEY);return r?JSON.parse(r):null;}catch{return null;}}
 function saveMeso(m){try{localStorage.setItem(MESO_KEY,JSON.stringify(m));}catch{}}
+const GIGASERIES_KEY="repcount-gigaseries";
+function loadGigaSeries(){try{const r=localStorage.getItem(GIGASERIES_KEY);return r?JSON.parse(r):[];}catch{return [];}}
+function saveGigaSeries(list){try{localStorage.setItem(GIGASERIES_KEY,JSON.stringify(list));}catch{}}
 
 // ─── AUDIO ────────────────────────────────────────────────────────────────────
 function playBeep(type="alarm") {
