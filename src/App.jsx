@@ -1995,6 +1995,54 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
         <button onClick={resetAll} style={{width:"100%",padding:"14px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"12px",fontSize:"14px",letterSpacing:"3px",color:"#777",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>IR AL INICIO</button>
       </div>}
 
+      {/* ── GIGA SERIE: EJECUCIÓN ── */}
+      {screen==="gigaseries_counting"&&gigaActiveRecipe&&(()=>{
+        const step=gigaActiveRecipe.steps[gigaStepIdx];
+        const exData=exercises.find(e=>e.id===step?.exerciseId);
+        const exColor=exData?.color||"#00C9A7";
+        const totSteps=gigaActiveRecipe.steps.length;
+        return(<div style={{width:"100%",maxWidth:"420px",zIndex:1,textAlign:"center"}}>
+          {paused&&<PauseOverlay onResume={()=>setPaused(false)} onSkip={()=>{clearInterval(timerRef.current);finishGigaStep();setPaused(false);}} onAbandon={resetAll} setRestLeft={()=>{}} restLeft={0} isRest={false}/>}
+          <div style={{fontSize:"9px",letterSpacing:"3px",color:"#555",marginBottom:"4px"}}>🔥 {gigaActiveRecipe.name.toUpperCase()} · VUELTA {gigaRoundIdx+1}</div>
+          {totSteps>1&&<div style={{display:"flex",gap:"6px",justifyContent:"center",marginBottom:"6px"}}>{gigaActiveRecipe.steps.map((_,i)=><div key={i} style={{width:i===gigaStepIdx?"22px":"8px",height:"5px",borderRadius:"3px",background:i<gigaStepIdx?exColor+"88":i===gigaStepIdx?exColor:"rgba(255,255,255,0.1)",transition:"all 0.3s"}}/> )}</div>}
+          <div style={{fontSize:"9px",letterSpacing:"3px",color:"#444",marginBottom:"8px"}}>TIEMPO {fmtM(gigaElapsed)}</div>
+          <div style={{fontSize:"22px",marginBottom:"4px"}}>{exData?.icon}</div>
+          <div style={{fontSize:"18px",letterSpacing:"2px",color:exColor,marginBottom:"12px"}}>{exData?.name?.toUpperCase()}</div>
+          <div style={{position:"relative",width:"200px",height:"200px",margin:"0 auto 12px"}}>
+            <svg width="200" height="200" style={{transform:"rotate(-90deg)",position:"absolute",top:0,left:0}}><circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8"/><circle cx="100" cy="100" r="88" fill="none" stroke={exColor} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${2*Math.PI*88}`} strokeDashoffset={`${2*Math.PI*88*(1-Math.min(gigaReps/(step?.reps||1),1))}`} style={{transition:"stroke-dashoffset 0.3s ease",filter:`drop-shadow(0 0 10px ${exColor})`}}/></svg>
+            <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center",width:"180px"}}><div style={{fontSize:"90px",lineHeight:0.9,color:exColor,fontVariantNumeric:"tabular-nums"}}>{gigaReps}</div><div style={{fontSize:"11px",letterSpacing:"4px",color:"#333",marginTop:"8px"}}>/ {step?.reps||1} REPS</div></div>
+          </div>
+          {poseActive&&exData&&<div style={{marginBottom:"10px"}}><PoseView key={`giga-${gigaRoundIdx}-${gigaStepIdx}-${cameraKey}`} color={exColor} exerciseId={exData.id} onRep={gigaSimulateRep} active={poseActive} facingMode={facingMode} onFlipCamera={()=>{setFacingMode(m=>m==="user"?"environment":"user");setCameraKey(k=>k+1);}} onReady={()=>setPoseReady(true)} onPhaseChange={()=>{}}/></div>}
+          <div style={{display:"flex",gap:"8px",marginBottom:"8px"}}>
+            <button onClick={gigaSimulateRep} style={{flex:1,padding:"12px",background:"rgba(255,255,255,0.04)",border:`1px solid ${exColor}33`,borderRadius:"12px",fontSize:"15px",letterSpacing:"3px",color:exColor+"99",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>+ MANUAL</button>
+            <button onClick={()=>setPoseActive(v=>!v)} style={{padding:"12px 14px",background:poseActive?`${exColor}22`:"rgba(255,255,255,0.04)",border:`1px solid ${poseActive?exColor:"rgba(255,255,255,0.1)"}`,borderRadius:"12px",color:poseActive?exColor:"#555",cursor:"pointer",fontSize:"18px"}}>🤖</button>
+            <button onClick={()=>setPaused(true)} style={{padding:"12px 14px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"12px",color:"#888",cursor:"pointer",fontSize:"18px"}}>⏸</button>
+          </div>
+          <button onClick={terminarGiga} style={{width:"100%",padding:"14px",background:"rgba(244,67,54,0.12)",border:"1px solid #f44336",borderRadius:"12px",fontSize:"16px",letterSpacing:"4px",color:"#f44336",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>■ TERMINAR</button>
+        </div>);
+      })()}
+
+      {/* ── GIGA SERIE: RESUMEN ── */}
+      {screen==="gigaseries_done"&&gigaActiveRecipe&&(()=>{
+        const totals={};
+        gigaDoneLog.forEach(item=>{totals[item.exerciseId]=(totals[item.exerciseId]||0)+item.reps;});
+        const totalReps=gigaDoneLog.reduce((a,b)=>a+b.reps,0);
+        return(<div style={{width:"100%",maxWidth:"420px",zIndex:1,textAlign:"center"}}>
+          <div style={{fontSize:"13px",letterSpacing:"6px",color:"#00C9A7",marginBottom:"8px"}}>GIGA SERIE COMPLETADA 🔥</div>
+          <div style={{fontSize:"22px",letterSpacing:"3px",marginBottom:"8px"}}>{gigaActiveRecipe.name.toUpperCase()}</div>
+          <div style={{fontSize:"11px",letterSpacing:"3px",color:"#666",marginBottom:"24px"}}>{gigaRoundIdx} {gigaRoundIdx===1?"VUELTA COMPLETA":"VUELTAS COMPLETAS"} · TIEMPO {fmtM(gigaElapsed)}</div>
+          <div style={{display:"flex",flexDirection:"column",gap:"8px",marginBottom:"24px"}}>
+            {Object.entries(totals).map(([exId,total])=>{const ex=exercises.find(e=>e.id===exId),C2=ex?.color||"#00C9A7";return(<div key={exId} style={{background:"rgba(255,255,255,0.03)",border:`1px solid ${C2}33`,borderRadius:"12px",padding:"12px 16px",display:"flex",alignItems:"center",gap:"12px"}}><span style={{fontSize:"20px"}}>{ex?.icon}</span><div style={{flex:1,textAlign:"left"}}><div style={{fontSize:"14px",letterSpacing:"2px",color:C2}}>{ex?.name?.toUpperCase()}</div></div><div style={{textAlign:"right"}}><div style={{fontSize:"28px",color:C2,lineHeight:1}}>{total}</div><div style={{fontSize:"8px",color:"#555",letterSpacing:"2px"}}>REPS</div></div></div>);})}
+          </div>
+          <div style={{background:"rgba(0,201,167,0.08)",border:"1px solid #00C9A733",borderRadius:"14px",padding:"16px",marginBottom:"24px"}}>
+            <div style={{fontSize:"11px",letterSpacing:"4px",color:"#555",marginBottom:"4px"}}>TOTAL REPS</div>
+            <div style={{fontSize:"72px",lineHeight:1,color:"#00C9A7",textShadow:"0 0 40px #00C9A788"}}>{totalReps}</div>
+          </div>
+          <button onClick={()=>startGiga(gigaActiveRecipe)} style={{width:"100%",padding:"18px",background:"#00C9A7",border:"none",borderRadius:"14px",fontSize:"20px",letterSpacing:"4px",color:"#000",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif",marginBottom:"8px"}}>REPETIR</button>
+          <button onClick={resetAll} style={{width:"100%",padding:"14px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"12px",fontSize:"14px",letterSpacing:"3px",color:"#777",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>IR AL INICIO</button>
+        </div>);
+      })()}
+
       {showInfo&&<InfoModal onClose={()=>setShowInfo(false)}/>}
 
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.min.css"/>
