@@ -1452,6 +1452,14 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
     return()=>clearInterval(timerRef.current);
   },[screen,poseActive]);
 
+  // ── TIMER GIGA SERIE ──
+  useEffect(()=>{
+    if(screen!=="gigaseries_counting")return;
+    if(paused)return;
+    timerRef.current=setInterval(()=>{setGigaElapsed(t=>t+1);},1000);
+    return()=>clearInterval(timerRef.current);
+  },[screen,paused]);
+
   // ── TIMER COUNTING ──
   useEffect(()=>{
     if(screen!=="counting")return;
