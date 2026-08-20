@@ -320,8 +320,32 @@ function HistoryScreen({onBack}){
   const grouped=history.reduce((acc,s)=>{const l=formatDate(s.date);if(!acc[l])acc[l]=[];acc[l].push(s);return acc;},{});
 
   if(detail){
-    const ex=exercises.find(e=>e.id===detail.exerciseId),C=ex?.color||"#FF4D4D",best=detail.sets?.length>0?Math.max(...detail.sets):0,isLibre=detail.mode==="libre";
-    const fmtE=s=>{const m=String(Math.floor((s||0)/60)).padStart(2,"0"),sc=String((s||0)%60).padStart(2,"0");return`${m}:${sc}`;};
+    if(detail.mode==="giga"){
+      return(<div style={{width:"100%",maxWidth:"420px"}}>
+        <button onClick={()=>setDetail(null)} style={{background:"none",border:"none",color:"#666",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",marginBottom:"24px",padding:0}}>← HISTORIAL</button>
+        <div style={{textAlign:"center",marginBottom:"20px"}}>
+          <div style={{fontSize:"38px",marginBottom:"4px"}}>🔥</div>
+          <div style={{fontSize:"26px",color:"#00C9A7",letterSpacing:"3px"}}>{detail.name?.toUpperCase()}</div>
+          <div style={{fontSize:"11px",color:"#555",marginTop:"6px"}}>{formatDate(detail.date)} · {formatTime(detail.date)}</div>
+        </div>
+        <div style={{textAlign:"center",background:"rgba(0,201,167,0.05)",border:"1px solid #00C9A733",borderRadius:"16px",padding:"20px",marginBottom:"14px"}}>
+          <div style={{fontSize:"72px",lineHeight:1,color:"#00C9A7"}}>{detail.totalReps}</div>
+          <div style={{fontSize:"12px",letterSpacing:"5px",color:"#555"}}>REPS TOTALES</div>
+        </div>
+        <div style={{display:"flex",gap:"8px",marginBottom:"14px"}}>
+          {[{v:detail.rounds,l:"VUELTAS"},{v:fmt(detail.elapsed||0),l:"TIEMPO"},{v:(detail.byExercise||[]).length,l:"EJERCICIOS"}].map(({v,l})=>(
+            <div key={l} style={{flex:1,background:"rgba(255,255,255,0.03)",border:"1px solid #00C9A722",borderRadius:"10px",padding:"10px 6px",textAlign:"center"}}>
+              <div style={{fontSize:"18px",color:"#00C9A7"}}>{v}</div>
+              <div style={{fontSize:"8px",letterSpacing:"1px",color:"#555",fontFamily:"sans-serif"}}>{l}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
+          {(detail.byExercise||[]).map((item,i)=>{const ex2=exercises.find(e=>e.id===item.exerciseId),C2=ex2?.color||"#00C9A7";return(<div key={i} style={{background:"rgba(255,255,255,0.03)",border:`1px solid ${C2}33`,borderRadius:"12px",padding:"12px 16px",display:"flex",alignItems:"center",gap:"12px"}}><span style={{fontSize:"20px"}}>{ex2?.icon}</span><div style={{flex:1,textAlign:"left"}}><div style={{fontSize:"14px",letterSpacing:"2px",color:C2}}>{ex2?.name?.toUpperCase()}</div></div><div style={{textAlign:"right"}}><div style={{fontSize:"22px",color:C2,lineHeight:1}}>{item.reps}</div><div style={{fontSize:"8px",color:"#555",letterSpacing:"2px"}}>REPS</div></div></div>);})}
+        </div>
+      </div>);
+    }
+    const ex=exercises.find(e=>e.id===detail.exerciseId),C=ex?.color||"#FF4D4D",best=detail.sets?.length>0?Math.max(...detail.sets):0,isLibre=detail.mode==="libre";    const fmtE=s=>{const m=String(Math.floor((s||0)/60)).padStart(2,"0"),sc=String((s||0)%60).padStart(2,"0");return`${m}:${sc}`;};
     return(<div style={{width:"100%",maxWidth:"420px"}}>
       <button onClick={()=>setDetail(null)} style={{background:"none",border:"none",color:"#666",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",marginBottom:"24px",padding:0}}>← HISTORIAL</button>
       <div style={{textAlign:"center",marginBottom:"20px"}}>
