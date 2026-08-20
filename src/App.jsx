@@ -1658,6 +1658,11 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
             <div><div style={{fontSize:"22px",letterSpacing:"4px",color:"#FFD700"}}>MESOCICLO</div><div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#888",marginTop:"4px"}}>{mesoData?`${mesoData.cycle.name} · ${mesoData.cycle.totalWeeks} semanas`:"Ciclo multi-semana con progresión"}</div></div>
             <span style={{marginLeft:"auto",fontSize:"20px",color:"rgba(255,215,0,0.44)"}}>›</span>
           </button>
+          <button onClick={()=>setScreen("gigaseries_list")} style={{padding:"24px 20px",background:"rgba(0,201,167,0.08)",border:"1px solid rgba(0,201,167,0.25)",borderRadius:"16px",color:"#fff",cursor:"pointer",textAlign:"left",display:"flex",alignItems:"center",gap:"16px",transition:"all 0.2s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(0,201,167,0.14)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(0,201,167,0.08)"}>
+            <span style={{fontSize:"36px"}}>🔥</span>
+            <div><div style={{fontSize:"22px",letterSpacing:"4px",color:"#00C9A7"}}>GIGA SERIE</div><div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#888",marginTop:"4px"}}>Varios ejercicios seguidos, sin descanso entre medio</div></div>
+            <span style={{marginLeft:"auto",fontSize:"20px",color:"rgba(0,201,167,0.44)"}}>›</span>
+          </button>
         </div>
         <button onClick={()=>setScreen("history")} style={{width:"100%",padding:"12px 16px",background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:"12px",display:"flex",alignItems:"center",gap:"10px",cursor:"pointer",color:"#fff"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.05)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.03)"}>
           <span style={{fontSize:"16px"}}>📊</span>
