@@ -144,7 +144,6 @@ const REP_DETECTORS={
     return{angle:score,phase:ratio>0.6?"down":ratio<0.3?"up":null,conf:L?cL:cR,dbg2};
   },  
   sentadillas:(kps)=>{const cL=Math.min(kps[11][2],kps[13][2],kps[15][2]),cR=Math.min(kps[12][2],kps[14][2],kps[16][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const aL=cL>=MIN_CONF?calcAngle(kps[11],kps[13],kps[15]):180,aR=cR>=MIN_CONF?calcAngle(kps[12],kps[14],kps[16]):180;const ui=aL<aR,a=ui?aL:aR;return{angle:Math.round(a),phase:a<100?"down":a>160?"up":null,conf:ui?cL:cR};},
-  burpee_sin_salto:(kps,stageRef)=>{
   burpee_sin_salto:(kps,stageRef,flexCountRef,requiredFlex=1)=>{
     const cL=Math.min(kps[5][2],kps[11][2],kps[13][2]),cR=Math.min(kps[6][2],kps[12][2],kps[14][2]);
     if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};
