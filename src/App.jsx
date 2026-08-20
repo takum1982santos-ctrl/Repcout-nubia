@@ -1699,6 +1699,47 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
 
       
 
+      {/* ── GIGA SERIE: EDITOR ── */}
+      {screen==="gigaseries_editor"&&<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"16px"}}>
+          <button onClick={()=>setScreen("gigaseries_list")} style={{background:"#4a9eff",border:"none",color:"#fff",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",padding:"8px 14px",borderRadius:"8px"}}>← VOLVER</button>
+          <div style={{fontSize:"20px",color:"#00C9A7",letterSpacing:"2px"}}>{gigaEditId?"EDITAR":"NUEVA"}</div>
+          <div style={{width:"70px"}}/>
+        </div>
+        <input value={gigaEditName} onChange={e=>setGigaEditName(e.target.value)} placeholder="Nombre de la Giga Serie" style={{width:"100%",padding:"12px 14px",background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:"12px",color:"#fff",fontSize:"14px",fontFamily:"sans-serif",marginBottom:"16px",boxSizing:"border-box"}}/>
+        {gigaEditSteps.map((st,i)=>(
+          <div key={i} style={{padding:"14px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px"}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"10px"}}>
+              <div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#666"}}>PASO {i+1}</div>
+              <button onClick={()=>setGigaEditSteps(gigaEditSteps.filter((_,j)=>j!==i))} style={{background:"none",border:"none",color:"#f44336",cursor:"pointer",fontSize:"16px",padding:"4px"}}>🗑</button>
+            </div>
+            <div style={{display:"flex",gap:"6px",marginBottom:"10px"}}>
+              {exercises.map(ex=>(
+                <button key={ex.id} onClick={()=>{const copy=[...gigaEditSteps];copy[i]={...copy[i],exerciseId:ex.id};setGigaEditSteps(copy);}} style={{flex:1,padding:"10px 4px",background:st.exerciseId===ex.id?`${ex.color}22`:"rgba(255,255,255,0.04)",border:st.exerciseId===ex.id?`1px solid ${ex.color}`:"1px solid rgba(255,255,255,0.1)",borderRadius:"10px",color:st.exerciseId===ex.id?ex.color:"#888",cursor:"pointer",fontSize:"18px"}}>{ex.icon}</button>
+              ))}
+            </div>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div style={{fontFamily:"sans-serif",fontSize:"12px",color:"#888"}}>Reps</div>
+              <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+                <button onClick={()=>{const copy=[...gigaEditSteps];copy[i]={...copy[i],reps:Math.max(1,copy[i].reps-1)};setGigaEditSteps(copy);}} style={{width:"32px",height:"32px",background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"8px",color:"#fff",fontSize:"18px",cursor:"pointer"}}>−</button>
+                <div style={{fontSize:"16px",color:"#fff",minWidth:"24px",textAlign:"center"}}>{st.reps}</div>
+                <button onClick={()=>{const copy=[...gigaEditSteps];copy[i]={...copy[i],reps:copy[i].reps+1};setGigaEditSteps(copy);}} style={{width:"32px",height:"32px",background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"8px",color:"#fff",fontSize:"18px",cursor:"pointer"}}>+</button>
+              </div>
+            </div>
+            {st.exerciseId==="burpee_sin_salto"&&<div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:"10px",paddingTop:"10px",borderTop:"1px solid rgba(255,255,255,0.08)"}}>
+              <div style={{fontFamily:"sans-serif",fontSize:"12px",color:"#888"}}>Flexiones en la plancha</div>
+              <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+                <button onClick={()=>{const copy=[...gigaEditSteps];copy[i]={...copy[i],burpeeFlex:Math.max(0,(copy[i].burpeeFlex||0)-1)};setGigaEditSteps(copy);}} style={{width:"32px",height:"32px",background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"8px",color:"#fff",fontSize:"18px",cursor:"pointer"}}>−</button>
+                <div style={{fontSize:"16px",color:"#fff",minWidth:"24px",textAlign:"center"}}>{st.burpeeFlex||0}</div>
+                <button onClick={()=>{const copy=[...gigaEditSteps];copy[i]={...copy[i],burpeeFlex:(copy[i].burpeeFlex||0)+1};setGigaEditSteps(copy);}} style={{width:"32px",height:"32px",background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"8px",color:"#fff",fontSize:"18px",cursor:"pointer"}}>+</button>
+              </div>
+            </div>}
+          </div>
+        ))}
+        <button onClick={()=>setGigaEditSteps([...gigaEditSteps,{exerciseId:"flexiones",reps:10,burpeeFlex:0}])} style={{width:"100%",padding:"12px",background:"transparent",border:"1px dashed rgba(255,255,255,0.25)",borderRadius:"12px",color:"#888",cursor:"pointer",marginBottom:"20px",fontSize:"13px",letterSpacing:"2px",fontFamily:"'Bebas Neue',sans-serif"}}>+ AGREGAR PASO</button>
+        <button onClick={()=>{if(!gigaEditName.trim()||gigaEditSteps.length===0)return;const rec={id:gigaEditId||Date.now().toString(),name:gigaEditName.trim(),steps:gigaEditSteps};const updated=gigaEditId?gigaSeries.map(g=>g.id===gigaEditId?rec:g):[...gigaSeries,rec];saveGigaSeries(updated);setGigaSeries(updated);setScreen("gigaseries_list");}} style={{width:"100%",padding:"16px",background:"rgba(76,175,80,0.15)",border:"1px solid #4caf50",borderRadius:"14px",color:"#4caf50",cursor:"pointer",fontSize:"14px",letterSpacing:"3px",fontFamily:"'Bebas Neue',sans-serif"}}>GUARDAR</button>
+      </div>}
+
       {/* ── SETUP ── */}
       {screen==="setup"&&selected&&(<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"16px"}}>
