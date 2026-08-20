@@ -1288,6 +1288,9 @@ function RepCountApp(){
   const[mesoWeekIdx,setMesoWeekIdx]=useState(null);
   const[mesoDayIdx,setMesoDayIdx]=useState(null);
   const[gigaSeries,setGigaSeries]=useState([]);
+  const[gigaEditId,setGigaEditId]=useState(null);
+  const[gigaEditName,setGigaEditName]=useState("");
+  const[gigaEditSteps,setGigaEditSteps]=useState([]);
   const[progSource,setProgSource]=useState("program");
 
   // ── POPUP ÚLTIMA SESIÓN (libre_select) ──
