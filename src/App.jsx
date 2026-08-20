@@ -1671,6 +1671,40 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
         </button>
       </div>}
 
+      {/* ── GIGA SERIE: LISTA ── */}
+      {screen==="gigaseries_list"&&<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"16px"}}>
+          <button onClick={()=>setScreen("home")} style={{background:"#4a9eff",border:"none",color:"#fff",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",padding:"8px 14px",borderRadius:"8px"}}>← VOLVER</button>
+          <div style={{fontSize:"20px",color:"#00C9A7",letterSpacing:"2px"}}>GIGA SERIE</div>
+          <div style={{width:"70px"}}/>
+        </div>
+        <button disabled style={{width:"100%",padding:"16px",background:"rgba(0,201,167,0.06)",border:"1px solid rgba(0,201,167,0.2)",borderRadius:"14px",color:"#00C9A7",cursor:"default",marginBottom:"16px",fontSize:"14px",letterSpacing:"2px",fontFamily:"'Bebas Neue',sans-serif"}}>+ NUEVA (próximo paso)</button>
+        {gigaSeries.length===0&&<div style={{textAlign:"center",color:"#555",fontFamily:"sans-serif",fontSize:"13px",marginTop:"40px"}}>Todavía no armaste ninguna Giga Serie.</div>}
+        {gigaSeries.map(g=>(
+          <div key={g.id} style={{padding:"16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px"}}>
+            <div style={{fontSize:"16px",color:"#fff",letterSpacing:"2px"}}>{g.name}</div>
+            <div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#666",marginTop:"4px"}}>{g.steps.length} pasos</div>
+          </div>
+        ))}
+      </div>}
+
+      {/* ── GIGA SERIE: LISTA ── */}
+      {screen==="gigaseries_list"&&<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"16px"}}>
+          <button onClick={()=>setScreen("home")} style={{background:"#4a9eff",border:"none",color:"#fff",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",padding:"8px 14px",borderRadius:"8px"}}>← VOLVER</button>
+          <div style={{fontSize:"20px",color:"#00C9A7",letterSpacing:"2px"}}>GIGA SERIE</div>
+          <div style={{width:"70px"}}/>
+        </div>
+        <button disabled style={{width:"100%",padding:"16px",background:"rgba(0,201,167,0.06)",border:"1px solid rgba(0,201,167,0.2)",borderRadius:"14px",color:"#00C9A7",cursor:"default",marginBottom:"16px",fontSize:"14px",letterSpacing:"2px",fontFamily:"'Bebas Neue',sans-serif"}}>+ NUEVA (próximo paso)</button>
+        {gigaSeries.length===0&&<div style={{textAlign:"center",color:"#555",fontFamily:"sans-serif",fontSize:"13px",marginTop:"40px"}}>Todavía no armaste ninguna Giga Serie.</div>}
+        {gigaSeries.map(g=>(
+          <div key={g.id} style={{padding:"16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px"}}>
+            <div style={{fontSize:"16px",color:"#fff",letterSpacing:"2px"}}>{g.name}</div>
+            <div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#666",marginTop:"4px"}}>{g.steps.length} pasos</div>
+          </div>
+        ))}
+      </div>}
+
       {/* ── SETUP ── */}
       {screen==="setup"&&selected&&(<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"16px"}}>
