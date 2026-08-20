@@ -260,7 +260,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
 }
 
 // ─── POSE VIEW ────────────────────────────────────────────────────────────────
-function PoseView({color,exerciseId,onRep,active,facingMode,onFlipCamera,onReady,onPhaseChange}){
+function PoseView({color,exerciseId,onRep,active,facingMode,onFlipCamera,onReady,onPhaseChange,burpeeFlexTarget=1}){
   const canvasRef=useRef(null),drawRef=useRef(null);
   const[status,setStatus]=useState("En espera...");
   const[liveAngle,setLiveAngle]=useState(null);
