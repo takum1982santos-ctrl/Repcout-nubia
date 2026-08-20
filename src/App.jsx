@@ -1291,6 +1291,12 @@ function RepCountApp(){
   const[gigaEditId,setGigaEditId]=useState(null);
   const[gigaEditName,setGigaEditName]=useState("");
   const[gigaEditSteps,setGigaEditSteps]=useState([]);
+  const[gigaActiveRecipe,setGigaActiveRecipe]=useState(null);
+  const[gigaStepIdx,setGigaStepIdx]=useState(0);
+  const[gigaRoundIdx,setGigaRoundIdx]=useState(0);
+  const[gigaReps,setGigaReps]=useState(0);
+  const[gigaDoneLog,setGigaDoneLog]=useState([]);
+  const[gigaElapsed,setGigaElapsed]=useState(0);
   const[progSource,setProgSource]=useState("program");
 
   // ── POPUP ÚLTIMA SESIÓN (libre_select) ──
