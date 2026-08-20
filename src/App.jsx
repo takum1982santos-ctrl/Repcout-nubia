@@ -364,7 +364,20 @@ function HistoryScreen({onBack}){
         <div key={dateLabel}>
           <div style={{fontSize:"11px",letterSpacing:"4px",color:"#444",marginBottom:"8px"}}>{dateLabel.toUpperCase()}</div>
           <div style={{display:"flex",flexDirection:"column",gap:"6px"}}>
-            {sessions.map((s,i)=>{const ex=exercises.find(e=>e.id===s.exerciseId),C=ex?.color||"#FF4D4D",isPB=pbMap[s.exerciseId]===s.totalReps;
+            {sessions.map((s,i)=>{
+              if(s.mode==="giga"){
+                const C=s.color||"#00C9A7";
+                return(<button key={i} onClick={()=>setDetail(s)} style={{background:"rgba(255,255,255,0.03)",border:`1px solid ${C}33`,borderRadius:"12px",padding:"12px 14px",display:"flex",alignItems:"center",gap:"12px",cursor:"pointer",color:"#fff",textAlign:"left"}} onMouseEnter={e=>e.currentTarget.style.background=`${C}11`} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.03)"}>
+                  <span style={{fontSize:"22px"}}>🔥</span>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex",alignItems:"center",gap:"6px",marginBottom:"3px"}}><span style={{fontSize:"15px",letterSpacing:"2px"}}>{s.name?.toUpperCase()}</span></div>
+                    <div style={{fontFamily:"sans-serif",fontSize:"9px",color:"#444"}}>🔥 GIGA SERIE · {s.rounds} {s.rounds===1?"vuelta":"vueltas"} · {formatTime(s.date)}</div>
+                  </div>
+                  <div style={{textAlign:"right"}}><div style={{fontSize:"26px",lineHeight:1,color:C}}>{s.totalReps}</div><div style={{fontSize:"9px",letterSpacing:"2px",color:"#555"}}>REPS</div></div>
+                  <span style={{fontSize:"14px",color:"#333"}}>›</span>
+                </button>);
+              }
+              const ex=exercises.find(e=>e.id===s.exerciseId),C=ex?.color||"#FF4D4D",isPB=pbMap[s.exerciseId]===s.totalReps;
               return(<button key={i} onClick={()=>setDetail(s)} style={{background:"rgba(255,255,255,0.03)",border:`1px solid ${C}33`,borderRadius:"12px",padding:"12px 14px",display:"flex",alignItems:"center",gap:"12px",cursor:"pointer",color:"#fff",textAlign:"left"}} onMouseEnter={e=>e.currentTarget.style.background=`${C}11`} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.03)"}>
                 <span style={{fontSize:"22px"}}>{ex?.icon}</span>
                 <div style={{flex:1}}>
