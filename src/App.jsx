@@ -1320,6 +1320,7 @@ function RepCountApp(){
   const[particles]=useState(()=>Array.from({length:24},(_,i)=>({id:i,angle:(i/24)*360,distance:80+Math.random()*120,color:["#FF4D4D","#FFD700","#00C9A7","#6C63FF","#FF8C00","#00BFFF"][i%6],size:4+Math.random()*6})));
 
   useEffect(()=>{(async()=>{const m=await loadMeso();setMesoData(m);})();},[]);
+useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();},[]);
 
   const C=selected?.color||"#FF4D4D";
   const fmtM=(s)=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
