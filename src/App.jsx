@@ -1681,12 +1681,18 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
           <div style={{fontSize:"20px",color:"#00C9A7",letterSpacing:"2px"}}>GIGA SERIE</div>
           <div style={{width:"70px"}}/>
         </div>
-        <button disabled style={{width:"100%",padding:"16px",background:"rgba(0,201,167,0.06)",border:"1px solid rgba(0,201,167,0.2)",borderRadius:"14px",color:"#00C9A7",cursor:"default",marginBottom:"16px",fontSize:"14px",letterSpacing:"2px",fontFamily:"'Bebas Neue',sans-serif"}}>+ NUEVA (próximo paso)</button>
+        <button onClick={()=>{setGigaEditId(null);setGigaEditName("");setGigaEditSteps([{exerciseId:"flexiones",reps:10,burpeeFlex:0}]);setScreen("gigaseries_editor");}} style={{width:"100%",padding:"16px",background:"rgba(0,201,167,0.1)",border:"1px solid rgba(0,201,167,0.3)",borderRadius:"14px",color:"#00C9A7",cursor:"pointer",marginBottom:"16px",fontSize:"14px",letterSpacing:"2px",fontFamily:"'Bebas Neue',sans-serif"}}>+ NUEVA</button>
         {gigaSeries.length===0&&<div style={{textAlign:"center",color:"#555",fontFamily:"sans-serif",fontSize:"13px",marginTop:"40px"}}>Todavía no armaste ninguna Giga Serie.</div>}
         {gigaSeries.map(g=>(
-          <div key={g.id} style={{padding:"16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px"}}>
-            <div style={{fontSize:"16px",color:"#fff",letterSpacing:"2px"}}>{g.name}</div>
-            <div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#666",marginTop:"4px"}}>{g.steps.length} pasos</div>
+          <div key={g.id} style={{padding:"16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+            <div>
+              <div style={{fontSize:"16px",color:"#fff",letterSpacing:"2px"}}>{g.name}</div>
+              <div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#666",marginTop:"4px"}}>{g.steps.length} pasos</div>
+            </div>
+            <div style={{display:"flex",alignItems:"center"}}>
+              <button onClick={()=>{setGigaEditId(g.id);setGigaEditName(g.name);setGigaEditSteps(g.steps);setScreen("gigaseries_editor");}} style={{background:"none",border:"1px solid rgba(255,255,255,0.1)",color:"#555",cursor:"pointer",fontSize:"18px",padding:"6px 10px",borderRadius:"8px",lineHeight:1,marginRight:"6px"}}>✏️</button>
+              <button onClick={()=>{const updated=gigaSeries.filter(x=>x.id!==g.id);saveGigaSeries(updated);setGigaSeries(updated);}} style={{background:"none",border:"none",color:"#f44336",cursor:"pointer",fontSize:"16px",padding:"4px"}}>🗑</button>
+            </div>
           </div>
         ))}
       </div>}
