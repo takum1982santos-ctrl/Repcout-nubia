@@ -227,7 +227,7 @@ function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode
               fsd=0;keypointsRef.current=kps;
               const rd=REP_DETECTORS[exerciseId];
               if(rd){
-                const{angle,phase,conf,dbg2}=rd(kps,burpeeStageRef);
+                const{angle,phase,conf,dbg2}=rd(kps,burpeeStageRef,burpeeFlexCountRef,burpeeFlexTarget);
                 if(angle!==null&&conf>=MIN_CONF){
                   badFrameRef.current=0;
                   angleHistRef.current=[...angleHistRef.current,angle].slice(-SF);
