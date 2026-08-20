@@ -1396,6 +1396,44 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
     playBeep("rep");
   };
 
+  const startGiga=(recipe)=>{
+    setGigaActiveRecipe(recipe);setGigaStepIdx(0);setGigaRoundIdx(0);
+    setGigaReps(0);setGigaDoneLog([]);setGigaElapsed(0);setPaused(false);
+    setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
+    setScreen("gigaseries_counting");playBeep("go");
+  };
+
+  const finishGigaStep=(finalReps)=>{
+    if(!gigaActiveRecipe)return;
+    const step=gigaActiveRecipe.steps[gigaStepIdx];
+    setGigaDoneLog(log=>[...log,{exerciseId:step.exerciseId,reps:finalReps!==undefined?finalReps:gigaReps}]);
+    setGigaReps(0);
+    const nextIdx=gigaStepIdx+1;
+    if(nextIdx<gigaActiveRecipe.steps.length){setGigaStepIdx(nextIdx);}
+    else{setGigaStepIdx(0);setGigaRoundIdx(r=>r+1);}
+    setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
+    playBeep("rep");
+  };
+
+  const gigaSimulateRep=()=>{
+    if(!gigaActiveRecipe)return;
+    const step=gigaActiveRecipe.steps[gigaStepIdx];
+    setGigaReps(r=>{
+      const nr=r+1;
+      if(nr>=(step?.reps||1)){setTimeout(()=>finishGigaStep(nr),400);}
+      return nr;
+    });
+    playBeep("rep");
+  };
+
+  const terminarGiga=()=>{
+    if(gigaReps>0&&gigaActiveRecipe){
+      const step=gigaActiveRecipe.steps[gigaStepIdx];
+      setGigaDoneLog(log=>[...log,{exerciseId:step.exerciseId,reps:gigaReps}]);
+    }
+    setPoseActive(false);
+    setScreen("gigaseries_done");
+  };
   // ── COUNTDOWN ──
   useEffect(()=>{
     if(screen!=="countdown")return;
