@@ -145,6 +145,7 @@ const REP_DETECTORS={
   },  
   sentadillas:(kps)=>{const cL=Math.min(kps[11][2],kps[13][2],kps[15][2]),cR=Math.min(kps[12][2],kps[14][2],kps[16][2]);if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};const aL=cL>=MIN_CONF?calcAngle(kps[11],kps[13],kps[15]):180,aR=cR>=MIN_CONF?calcAngle(kps[12],kps[14],kps[16]):180;const ui=aL<aR,a=ui?aL:aR;return{angle:Math.round(a),phase:a<100?"down":a>160?"up":null,conf:ui?cL:cR};},
   burpee_sin_salto:(kps,stageRef)=>{
+  burpee_sin_salto:(kps,stageRef,flexCountRef,requiredFlex=1)=>{
     const cL=Math.min(kps[5][2],kps[11][2],kps[13][2]),cR=Math.min(kps[6][2],kps[12][2],kps[14][2]);
     if(cL<MIN_CONF&&cR<MIN_CONF)return{angle:null,phase:null,conf:0};
     const L=cL>=cR;
@@ -156,16 +157,20 @@ const REP_DETECTORS={
     const standing=tiltAngle>140;
     const inPlank=tiltAngle<110;
     const ix=L?[5,7,9,11,13,15]:[6,8,10,12,14,16];
-    const dbg2=`lado:${L?"IZQ":"DER"}\nhombro:${kps[ix[0]][2].toFixed(2)}\ncodo:${kps[ix[1]][2].toFixed(2)}\nmuñeca:${kps[ix[2]][2].toFixed(2)}\ncadera:${kps[ix[3]][2].toFixed(2)}\nrodilla:${kps[ix[4]][2].toFixed(2)}\ntobillo:${kps[ix[5]][2].toFixed(2)}\ntilt:${Math.round(tiltAngle)}\nstage:${stageRef.current}`;
+    const dbg2=`lado:${L?"IZQ":"DER"}\nhombro:${kps[ix[0]][2].toFixed(2)}\ncodo:${kps[ix[1]][2].toFixed(2)}\nmuñeca:${kps[ix[2]][2].toFixed(2)}\ncadera:${kps[ix[3]][2].toFixed(2)}\nrodilla:${kps[ix[4]][2].toFixed(2)}\ntobillo:${kps[ix[5]][2].toFixed(2)}\ntilt:${Math.round(tiltAngle)}\nstage:${stageRef.current}\nflex:${flexCountRef?flexCountRef.current:0}/${requiredFlex}`;
     if(!standing){
-      if(stageRef.current===4)stageRef.current=0;
+      if(stageRef.current===4){stageRef.current=0;if(flexCountRef)flexCountRef.current=0;}
       if(stageRef.current>=3)return{angle:Math.round(torsoAngle),phase:"down",conf:L?cL:cR,dbg2};
       if(inPlank){
-        if(stageRef.current<1)stageRef.current=1;
+        if(stageRef.current<1){stageRef.current=1;if(flexCountRef)flexCountRef.current=0;}
         const cElbow=L?Math.min(kps[5][2],kps[7][2],kps[9][2]):Math.min(kps[6][2],kps[8][2],kps[10][2]);
         if(cElbow>=MIN_CONF){
-          if(elbowAngle<100)stageRef.current=Math.max(stageRef.current,2);
-          if(stageRef.current>=2&&elbowAngle>140)stageRef.current=3;
+          if(stageRef.current===1&&elbowAngle<100)stageRef.current=2;
+          if(stageRef.current===2&&elbowAngle>140){
+            if(flexCountRef)flexCountRef.current+=1;
+            const done=flexCountRef?flexCountRef.current:1;
+            stageRef.current=(done>=requiredFlex)?3:1;
+          }
         }
       }
       return{angle:Math.round(torsoAngle),phase:null,conf:L?cL:cR,dbg2};
