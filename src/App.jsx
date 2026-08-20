@@ -187,11 +187,12 @@ function loadScript(src){return new Promise((res,rej)=>{if(document.querySelecto
 function preloadMoveNetScripts(){return loadScript(TF_URL).then(()=>loadScript(PD_URL)).catch(()=>{});}
 
 // ─── useMoveNet HOOK ──────────────────────────────────────────────────────────
-function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode="user"}){
+function useMoveNet({active,exerciseId,onRep,onStatus,onAngle,onReady,facingMode="user",burpeeFlexTarget=1}){
   const videoRef=useRef(null),keypointsRef=useRef(null),phaseRef=useRef(null),frameRef=useRef(null);
   const angleHistRef=useRef([]),phaseHistRef=useRef([]),lastRepRef=useRef(0);
   const badFrameRef=useRef(0);const MAX_BAD=8;
   const burpeeStageRef=useRef(0);
+  const burpeeFlexCountRef=useRef(0);
   const SF=5,PF=3,RC=600;
   useEffect(()=>{
     if(!active){if(frameRef.current)cancelAnimationFrame(frameRef.current);return;}
