@@ -1481,7 +1481,10 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
       finalLog.forEach(item=>{totals[item.exerciseId]=(totals[item.exerciseId]||0)+item.reps;});
       const byExercise=Object.entries(totals).map(([exerciseId,reps])=>({exerciseId,reps}));
       const totalReps=byExercise.reduce((a,b)=>a+b.reps,0);
-      saveSession({id:Date.now().toString(),date:new Date().toISOString(),mode:"giga",name:gigaActiveRecipe.name,rounds:gigaRoundIdx,elapsed:gigaElapsed,duration:Math.ceil(gigaElapsed/60),byExercise,totalReps});
+      const result=saveSession({id:Date.now().toString(),date:new Date().toISOString(),mode:"giga",name:gigaActiveRecipe.name,rounds:gigaRoundIdx,elapsed:gigaElapsed,duration:Math.ceil(gigaElapsed/60),byExercise,totalReps});
+      setGigaSaveStatus(result?{ok:true,count:result.length,byExercise,totalReps}:{ok:false});
+    }else{
+      setGigaSaveStatus({ok:false,noRecipe:true});
     }
     setPoseActive(false);
     setScreen("gigaseries_done");
