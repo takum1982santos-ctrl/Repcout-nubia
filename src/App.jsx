@@ -1339,6 +1339,7 @@ function RepCountApp(){
   const[gigaReps,setGigaReps]=useState(0);
   const[gigaDoneLog,setGigaDoneLog]=useState([]);
   const[gigaElapsed,setGigaElapsed]=useState(0);
+  const[gigaSaveStatus,setGigaSaveStatus]=useState(null);
   const[progSource,setProgSource]=useState("program");
 
   // ── POPUP ÚLTIMA SESIÓN (libre_select) ──
