@@ -1462,7 +1462,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
   };
   
 
-  const finishGigaSet=()=>{
+
   const finishGigaSet=()=>{
     if(gigaCurrentSet>=gigaTotalSets){terminarGiga();return;}
     setGigaCurrentSet(cs=>cs+1);
