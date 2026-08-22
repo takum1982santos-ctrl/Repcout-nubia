@@ -2156,6 +2156,18 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
         </div>);
       })()}
 
+      {/* ── GIGA SERIE: DESCANSO ── */}
+      {screen==="gigaseries_rest"&&gigaActiveRecipe&&<div style={{width:"100%",maxWidth:"420px",zIndex:1,textAlign:"center"}}>
+        <div style={{fontSize:"13px",letterSpacing:"6px",color:"#555",marginBottom:"16px"}}>DESCANSO</div>
+        <div style={{position:"relative",width:"180px",height:"180px",margin:"0 auto 16px"}}>
+          <svg width="180" height="180" style={{transform:"rotate(-90deg)"}}><circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6"/><circle cx="90" cy="90" r="78" fill="none" stroke="#00C9A7" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${2*Math.PI*78}`} strokeDashoffset={`${2*Math.PI*78*(1-gigaRestLeft/gigaRestDuration)}`} style={{transition:"stroke-dashoffset 1s linear",filter:"drop-shadow(0 0 8px #00C9A7)"}}/></svg>
+          <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}><div style={{fontSize:"52px",lineHeight:1}}>{fmtM(gigaRestLeft)}</div><div style={{fontSize:"10px",letterSpacing:"3px",color:"#555",marginTop:"4px"}}>REST</div></div>
+        </div>
+        <div style={{fontSize:"10px",letterSpacing:"3px",color:"#444",marginBottom:"14px"}}>PRÓXIMO: SET {gigaCurrentSet} / {gigaTotalSets}</div>
+        <button onClick={()=>{clearInterval(timerRef.current);setGigaStepIdx(0);setGigaReps(0);setCameraKey(k=>k+1);setPoseReady(false);setPoseActive(true);setScreen("gigaseries_counting");playBeep("go");}} style={{width:"100%",padding:"16px",background:"#00C9A7",border:"none",borderRadius:"14px",fontSize:"18px",letterSpacing:"4px",color:"#000",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif",marginBottom:"8px"}}>⚡ SALTAR</button>
+        <button onClick={resetAll} style={{width:"100%",padding:"12px",background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:"12px",color:"#444",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",fontFamily:"'Bebas Neue',sans-serif"}}>ABANDONAR</button>
+      </div>}
+
       {/* ── GIGA SERIE: RESUMEN ── */}
       {screen==="gigaseries_done"&&gigaActiveRecipe&&(()=>{
         const totals={};
