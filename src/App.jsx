@@ -1451,6 +1451,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
   const startGiga=(recipe)=>{
     setGigaActiveRecipe(recipe);setGigaStepIdx(0);setGigaRoundIdx(0);
     setGigaReps(0);setGigaDoneLog([]);setGigaElapsed(0);setPaused(false);setGigaSaveStatus(null);
+    setGigaCurrentSet(1);setGigaSetRoundIdx(0);
     setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
     setScreen("gigaseries_counting");playBeep("go");
   };
@@ -1461,14 +1462,31 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
   };
   
 
+  const finishGigaSet=()=>{
+    if(gigaCurrentSet>=gigaTotalSets){terminarGiga();return;}
+    setGigaCurrentSet(cs=>cs+1);
+    setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
+    playBeep("whistle");
+  };
+
   const finishGigaStep=(finalReps)=>{
     if(!gigaActiveRecipe)return;
     const step=gigaActiveRecipe.steps[gigaStepIdx];
     setGigaDoneLog(log=>[...log,{exerciseId:step.exerciseId,reps:finalReps!==undefined?finalReps:gigaReps}]);
     setGigaReps(0);
     const nextIdx=gigaStepIdx+1;
+    let roundJustCompleted=false;
     if(nextIdx<gigaActiveRecipe.steps.length){setGigaStepIdx(nextIdx);}
-    else{setGigaStepIdx(0);setGigaRoundIdx(r=>r+1);}
+    else{setGigaStepIdx(0);setGigaRoundIdx(r=>r+1);roundJustCompleted=true;}
+    if(roundJustCompleted&&gigaMode==="series"&&gigaSeriesMode==="reps"){
+      const nextSetRounds=gigaSetRoundIdx+1;
+      if(nextSetRounds>=gigaRepsPerSet){
+        setGigaSetRoundIdx(0);
+        finishGigaSet();
+        return;
+      }
+      setGigaSetRoundIdx(nextSetRounds);
+    }
     setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
     playBeep("rep");
   };
