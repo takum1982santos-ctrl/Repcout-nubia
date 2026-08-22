@@ -1463,9 +1463,12 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
   
 
   const finishGigaSet=()=>{
+  const finishGigaSet=()=>{
     if(gigaCurrentSet>=gigaTotalSets){terminarGiga();return;}
     setGigaCurrentSet(cs=>cs+1);
-    setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
+    setPoseActive(false);
+    setGigaRestLeft(gigaRestDuration);
+    setScreen("gigaseries_rest");
     playBeep("whistle");
   };
 
