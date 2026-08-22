@@ -1447,7 +1447,9 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
     setGigaReps(0);setGigaDoneLog([]);setGigaElapsed(0);setPaused(false);setGigaSaveStatus(null);
     setPoseActive(true);setPoseReady(false);setCameraKey(k=>k+1);
     setScreen("gigaseries_counting");playBeep("go");
-    const selectGigaRecipe=(recipe)=>{
+  };
+
+  const selectGigaRecipe=(recipe)=>{
     setGigaActiveRecipe(recipe);setGigaRepsPerSet(1);setGigaTotalSets(1);setGigaRestDuration(60);
     setScreen("gigaseries_setup");
   };
