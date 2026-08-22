@@ -1798,7 +1798,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
         <button onClick={()=>{setGigaEditId(null);setGigaEditName("");setGigaEditSteps([{exerciseId:"flexiones",reps:10,burpeeFlex:0}]);setScreen("gigaseries_editor");}} style={{width:"100%",padding:"16px",background:"rgba(0,201,167,0.1)",border:"1px solid rgba(0,201,167,0.3)",borderRadius:"14px",color:"#00C9A7",cursor:"pointer",marginBottom:"16px",fontSize:"14px",letterSpacing:"2px",fontFamily:"'Bebas Neue',sans-serif"}}>+ NUEVA</button>
         {gigaSeries.length===0&&<div style={{textAlign:"center",color:"#555",fontFamily:"sans-serif",fontSize:"13px",marginTop:"40px"}}>Todavía no armaste ninguna Giga Serie.</div>}
         {gigaSeries.map(g=>(
-          <div key={g.id} onClick={()=>startGiga(g)} style={{padding:"16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px",display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer"}}>
+          <div key={g.id} onClick={()=>selectGigaRecipe(g)} style={{padding:"16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:"14px",marginBottom:"10px",display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer"}}>
             <div>
               <div style={{fontSize:"16px",color:"#fff",letterSpacing:"2px"}}>{g.name}</div>
               <div style={{fontFamily:"sans-serif",fontSize:"11px",color:"#666",marginTop:"4px"}}>{g.steps.length} pasos</div>
