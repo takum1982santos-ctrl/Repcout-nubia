@@ -1574,6 +1574,14 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
     return()=>clearInterval(timerRef.current);
   },[screen,duration,paused]);
 
+  // ── TIMER DESCANSO GIGA SERIE ──
+  useEffect(()=>{
+    if(screen!=="gigaseries_rest")return;
+    let rp=false;
+    timerRef.current=setInterval(()=>{setGigaRestLeft(t=>{if(t<=1){clearInterval(timerRef.current);setGigaStepIdx(0);setGigaReps(0);setCameraKey(k=>k+1);setPoseReady(false);setPoseActive(true);setScreen("gigaseries_counting");playBeep("go");return 0;}if(t===4&&!rp){rp=true;playBeep("ready");}return t-1;});},1000);
+    return()=>clearInterval(timerRef.current);
+  },[screen]);
+
   // ── TIMER PROGRAMA — DESCANSO ──
   useEffect(()=>{
     if(screen!=="prog_rest")return;
