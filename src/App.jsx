@@ -1346,6 +1346,9 @@ function RepCountApp(){
   const[gigaMode,setGigaMode]=useState("series");
   const[gigaSeriesMode,setGigaSeriesMode]=useState("reps");
   const[gigaSetDuration,setGigaSetDuration]=useState(60);
+  const[gigaCurrentSet,setGigaCurrentSet]=useState(1);
+  const[gigaSetRoundIdx,setGigaSetRoundIdx]=useState(0);
+  const[gigaRestLeft,setGigaRestLeft]=useState(0);
   const[progSource,setProgSource]=useState("program");
 
   // ── POPUP ÚLTIMA SESIÓN (libre_select) ──
