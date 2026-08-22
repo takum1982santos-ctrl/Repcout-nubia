@@ -1824,13 +1824,32 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
           <div style={{width:"70px"}}/>
         </div>
         {(()=>{
+          <div style={{display:"flex",gap:"6px",marginBottom:"16px"}}>
+          {[{id:"series",label:"📋 SERIES",desc:"Sets + descanso"},{id:"libre",label:"⏱ LIBRE",desc:"Como ahora"}].map(m=>{
+            const active=gigaMode===m.id;
+            return(<button key={m.id} onClick={()=>setGigaMode(m.id)} style={{flex:1,padding:"12px 10px",background:active?"#00C9A7":"rgba(255,255,255,0.03)",border:`1px solid ${active?"#00C9A7":"rgba(255,255,255,0.07)"}`,borderRadius:"12px",cursor:"pointer",transition:"all 0.2s",textAlign:"center"}}>
+              <div style={{fontSize:"14px",letterSpacing:"2px",color:active?"#000":"#555",fontFamily:"'Bebas Neue',sans-serif"}}>{m.label}</div>
+              <div style={{fontFamily:"sans-serif",fontSize:"9px",color:active?"#00000077":"#444",marginTop:"3px"}}>{m.desc}</div>
+            </button>);
+          })}
+        </div>
+        {gigaMode==="series"&&<div style={{display:"flex",gap:"6px",marginBottom:"16px"}}>
+          {[{id:"time",label:"TIEMPO",icon:"⏱",desc:"Duración fija"},{id:"reps",label:"REPS",icon:"🔢",desc:"Meta de vueltas"}].map(m=>{
+            const active=gigaSeriesMode===m.id;
+            return(<button key={m.id} onClick={()=>setGigaSeriesMode(m.id)} style={{flex:1,padding:"10px 6px",background:active?"#00C9A7":"rgba(255,255,255,0.04)",border:`1px solid ${active?"#00C9A7":"rgba(255,255,255,0.07)"}`,borderRadius:"10px",cursor:"pointer",textAlign:"center"}}><div style={{fontSize:"16px",marginBottom:"3px"}}>{m.icon}</div><div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"13px",letterSpacing:"2px",color:active?"#000":"#00C9A777"}}>{m.label}</div><div style={{fontFamily:"sans-serif",fontSize:"8px",color:active?"#00000088":"#444",marginTop:"2px"}}>{m.desc}</div></button>);
+          })}
+        </div>}
+        {gigaMode==="series"&&(()=>{
           const GC="#00C9A7";
           const toMmSs=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
           const btn={width:"48px",height:"48px",borderRadius:"10px",border:`1px solid ${GC}44`,background:"rgba(255,255,255,0.04)",color:GC,fontSize:"22px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0};
           const val={flex:1,textAlign:"center",fontSize:"32px",color:GC,fontFamily:"'DSEG7 Classic',monospace",letterSpacing:"2px"};
           const timeRow=(label,v,setFn,step=15)=>(<div style={{marginBottom:"14px"}}><div style={{fontSize:"10px",letterSpacing:"4px",color:"#555",marginBottom:"8px"}}>{label}</div><div style={{display:"flex",alignItems:"center",gap:"8px",background:"rgba(255,255,255,0.03)",border:`1px solid ${GC}22`,borderRadius:"12px",padding:"8px"}}><button onClick={()=>setFn(x=>Math.max(step,x-step))} style={btn}>−</button><div style={val}>{toMmSs(v)}</div><button onClick={()=>setFn(x=>x+step)} style={btn}>+</button></div></div>);
           const numRow=(label,v,setFn,unit)=>(<div style={{marginBottom:"14px"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:"8px"}}><div style={{fontSize:"10px",letterSpacing:"4px",color:"#555"}}>{label}</div><div style={{fontFamily:"sans-serif",fontSize:"9px",color:"#444"}}>{unit}</div></div><div style={{display:"flex",alignItems:"center",gap:"8px",background:"rgba(255,255,255,0.03)",border:`1px solid ${GC}22`,borderRadius:"12px",padding:"8px"}}><button onClick={()=>setFn(x=>Math.max(1,x-1))} style={btn}>−</button><div style={val}>{String(v).padStart(2,"0")}</div><button onClick={()=>setFn(x=>x+1)} style={btn}>+</button></div></div>);
+          if(gigaSeriesMode==="time")return(<>{timeRow("DURACIÓN POR SET",gigaSetDuration,setGigaSetDuration)}{numRow("SERIES",gigaTotalSets,setGigaTotalSets,"sets")}{timeRow("DESCANSO",gigaRestDuration,setGigaRestDuration)}</>);
           return(<>{numRow("VUELTAS POR SET",gigaRepsPerSet,setGigaRepsPerSet,"vueltas")}{numRow("SERIES",gigaTotalSets,setGigaTotalSets,"sets")}{timeRow("DESCANSO",gigaRestDuration,setGigaRestDuration)}</>);
+        })()}
+        {gigaMode==="libre"&&<div style={{textAlign:"center",color:"#555",fontFamily:"sans-serif",fontSize:"12px",margin:"30px 0"}}>Corre sin límite de vueltas hasta que toques ■ TERMINAR.</div>}
         })()}
         <button onClick={()=>startGiga(gigaActiveRecipe)} style={{width:"100%",padding:"20px",background:"#00C9A7",border:"none",borderRadius:"16px",fontSize:"22px",letterSpacing:"4px",color:"#000",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>INICIAR SESIÓN</button>
       </div>)}
