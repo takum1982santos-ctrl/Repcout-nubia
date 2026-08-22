@@ -1813,7 +1813,24 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
         ))}
       </div>}
 
-      
+      {/* ── GIGA SERIE: CONFIGURACIÓN (SERIES) ── */}
+      {screen==="gigaseries_setup"&&gigaActiveRecipe&&(<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"16px"}}>
+          <button onClick={()=>setScreen("gigaseries_list")} style={{background:"#4a9eff",border:"none",color:"#fff",cursor:"pointer",fontSize:"13px",letterSpacing:"3px",padding:"8px 14px",borderRadius:"8px"}}>← VOLVER</button>
+          <div style={{fontSize:"20px",color:"#00C9A7",letterSpacing:"2px"}}>{gigaActiveRecipe.name.toUpperCase()}</div>
+          <div style={{width:"70px"}}/>
+        </div>
+        {(()=>{
+          const GC="#00C9A7";
+          const toMmSs=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
+          const btn={width:"48px",height:"48px",borderRadius:"10px",border:`1px solid ${GC}44`,background:"rgba(255,255,255,0.04)",color:GC,fontSize:"22px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0};
+          const val={flex:1,textAlign:"center",fontSize:"32px",color:GC,fontFamily:"'DSEG7 Classic',monospace",letterSpacing:"2px"};
+          const timeRow=(label,v,setFn,step=15)=>(<div style={{marginBottom:"14px"}}><div style={{fontSize:"10px",letterSpacing:"4px",color:"#555",marginBottom:"8px"}}>{label}</div><div style={{display:"flex",alignItems:"center",gap:"8px",background:"rgba(255,255,255,0.03)",border:`1px solid ${GC}22`,borderRadius:"12px",padding:"8px"}}><button onClick={()=>setFn(x=>Math.max(step,x-step))} style={btn}>−</button><div style={val}>{toMmSs(v)}</div><button onClick={()=>setFn(x=>x+step)} style={btn}>+</button></div></div>);
+          const numRow=(label,v,setFn,unit)=>(<div style={{marginBottom:"14px"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:"8px"}}><div style={{fontSize:"10px",letterSpacing:"4px",color:"#555"}}>{label}</div><div style={{fontFamily:"sans-serif",fontSize:"9px",color:"#444"}}>{unit}</div></div><div style={{display:"flex",alignItems:"center",gap:"8px",background:"rgba(255,255,255,0.03)",border:`1px solid ${GC}22`,borderRadius:"12px",padding:"8px"}}><button onClick={()=>setFn(x=>Math.max(1,x-1))} style={btn}>−</button><div style={val}>{String(v).padStart(2,"0")}</div><button onClick={()=>setFn(x=>x+1)} style={btn}>+</button></div></div>);
+          return(<>{numRow("VUELTAS POR SET",gigaRepsPerSet,setGigaRepsPerSet,"vueltas")}{numRow("SERIES",gigaTotalSets,setGigaTotalSets,"sets")}{timeRow("DESCANSO",gigaRestDuration,setGigaRestDuration)}</>);
+        })()}
+        <button onClick={()=>startGiga(gigaActiveRecipe)} style={{width:"100%",padding:"20px",background:"#00C9A7",border:"none",borderRadius:"16px",fontSize:"22px",letterSpacing:"4px",color:"#000",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>INICIAR SESIÓN</button>
+      </div>)}
 
       {/* ── GIGA SERIE: EDITOR ── */}
       {screen==="gigaseries_editor"&&<div style={{width:"100%",maxWidth:"420px",zIndex:1}}>
