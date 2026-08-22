@@ -1823,7 +1823,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
           <div style={{fontSize:"20px",color:"#00C9A7",letterSpacing:"2px"}}>{gigaActiveRecipe.name.toUpperCase()}</div>
           <div style={{width:"70px"}}/>
         </div>
-        {(()=>{
+        
           <div style={{display:"flex",gap:"6px",marginBottom:"16px"}}>
           {[{id:"series",label:"📋 SERIES",desc:"Sets + descanso"},{id:"libre",label:"⏱ LIBRE",desc:"Como ahora"}].map(m=>{
             const active=gigaMode===m.id;
@@ -1850,7 +1850,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
           return(<>{numRow("VUELTAS POR SET",gigaRepsPerSet,setGigaRepsPerSet,"vueltas")}{numRow("SERIES",gigaTotalSets,setGigaTotalSets,"sets")}{timeRow("DESCANSO",gigaRestDuration,setGigaRestDuration)}</>);
         })()}
         {gigaMode==="libre"&&<div style={{textAlign:"center",color:"#555",fontFamily:"sans-serif",fontSize:"12px",margin:"30px 0"}}>Corre sin límite de vueltas hasta que toques ■ TERMINAR.</div>}
-        })()}
+        
         <button onClick={()=>startGiga(gigaActiveRecipe)} style={{width:"100%",padding:"20px",background:"#00C9A7",border:"none",borderRadius:"16px",fontSize:"22px",letterSpacing:"4px",color:"#000",cursor:"pointer",fontFamily:"'Bebas Neue',sans-serif"}}>INICIAR SESIÓN</button>
       </div>)}
 
