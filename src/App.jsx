@@ -1475,7 +1475,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
   const finishGigaStep=(finalReps)=>{
     if(!gigaActiveRecipe)return;
     const step=gigaActiveRecipe.steps[gigaStepIdx];
-    setGigaDoneLog(log=>[...log,{exerciseId:step.exerciseId,reps:finalReps!==undefined?finalReps:gigaReps}]);
+    setGigaDoneLog(log=>[...log,{exerciseId:step.exerciseId,reps:finalReps!==undefined?finalReps:gigaReps,burpeeFlex:step.burpeeFlex||0}]);
     setGigaReps(0);
     const nextIdx=gigaStepIdx+1;
     let roundJustCompleted=false;
