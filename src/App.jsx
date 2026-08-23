@@ -2174,7 +2174,8 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
         const totals={};
         gigaDoneLog.forEach(item=>{totals[item.exerciseId]=(totals[item.exerciseId]||0)+item.reps;});
         const totalReps=gigaDoneLog.reduce((a,b)=>a+b.reps,0);
-        return(<div style={{width:"100%",maxWidth:"420px",zIndex:1,textAlign:"center"}}>
+        const totalReps=gigaDoneLog.reduce((a,b)=>a+b.reps,0);
+      return(<div style={{width:"100%",maxWidth:"420px",zIndex:1,textAlign:"center"}}>
           <div style={{fontSize:"13px",letterSpacing:"6px",color:"#00C9A7",marginBottom:"8px"}}>GIGA SERIE COMPLETADA 🔥</div>
           {gigaSaveStatus&&<div style={{fontSize:"10px",letterSpacing:"1px",color:gigaSaveStatus.ok?"#4caf50":"#f44336",marginBottom:"10px",fontFamily:"sans-serif"}}>{gigaSaveStatus.ok?`✅ Guardado en historial (${gigaSaveStatus.count} sesiones en total)`:gigaSaveStatus.noRecipe?"⚠️ No se guardó: faltaba la receta activa":"⚠️ No se pudo guardar (error en saveSession)"}</div>}
           <div style={{fontSize:"22px",letterSpacing:"3px",marginBottom:"8px"}}>{gigaActiveRecipe.name.toUpperCase()}</div>
