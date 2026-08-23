@@ -1509,7 +1509,7 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
     let finalLog=gigaDoneLog;
     if(gigaReps>0&&gigaActiveRecipe){
       const step=gigaActiveRecipe.steps[gigaStepIdx];
-      finalLog=[...gigaDoneLog,{exerciseId:step.exerciseId,reps:gigaReps}];
+      finalLog=[...gigaDoneLog,{exerciseId:step.exerciseId,reps:gigaReps,burpeeFlex:step.burpeeFlex||0}];
       setGigaDoneLog(finalLog);
     }
     if(gigaActiveRecipe){
@@ -1517,8 +1517,9 @@ useEffect(()=>{(async()=>{const g=await loadGigaSeries();setGigaSeries(g);})();}
       finalLog.forEach(item=>{totals[item.exerciseId]=(totals[item.exerciseId]||0)+item.reps;});
       const byExercise=Object.entries(totals).map(([exerciseId,reps])=>({exerciseId,reps}));
       const totalReps=byExercise.reduce((a,b)=>a+b.reps,0);
-      const result=saveSession({id:Date.now().toString(),date:new Date().toISOString(),mode:"giga",name:gigaActiveRecipe.name,rounds:gigaRoundIdx,elapsed:gigaElapsed,duration:Math.ceil(gigaElapsed/60),byExercise,totalReps});
-      setGigaSaveStatus(result?{ok:true,count:result.length,byExercise,totalReps}:{ok:false});
+      const burpeeFlexTotal=finalLog.filter(i=>i.exerciseId==="burpee_sin_salto").reduce((a,b)=>a+(b.reps*(b.burpeeFlex||0)),0);
+      const result=saveSession({id:Date.now().toString(),date:new Date().toISOString(),mode:"giga",name:gigaActiveRecipe.name,rounds:gigaRoundIdx,elapsed:gigaElapsed,duration:Math.ceil(gigaElapsed/60),byExercise,totalReps,burpeeFlexTotal});
+      setGigaSaveStatus(result?{ok:true,count:result.length,byExercise,totalReps,burpeeFlexTotal}:{ok:false});
     }else{
       setGigaSaveStatus({ok:false,noRecipe:true});
     }
